@@ -45,19 +45,13 @@
         list-style: none;
         margin-bottom: 30px;
     }
-    .cart-list li {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(212,175,55,0.1);
-        font-size: 16px;
-    }
     .empty-cart-msg {
         text-align: center;
         color: #999;
         font-style: italic;
+        padding: 20px 0;
     }
-    .whatsapp-btn {
+    .checkout-btn {
         display: block;
         width: 100%;
         padding: 15px;
@@ -72,7 +66,7 @@
         cursor: pointer;
         transition: 0.3s;
     }
-    .whatsapp-btn:hover {
+    .checkout-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 20px rgba(212,175,55,0.3);
     }
@@ -115,6 +109,85 @@
         color: #fff;
         margin-left: 10px;
     }
+
+    /* Yeni Sepet Öğesi Stilleri */
+    .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(212,175,55,0.1);
+        font-size: 16px;
+    }
+    .cart-item-img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        border-radius: 8px;
+        background: #1a1a1a;
+        margin-right: 15px;
+        border: 1px solid rgba(212,175,55,0.2);
+    }
+    .cart-item-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .cart-item-name {
+        font-weight: 600;
+        color: var(--gold);
+        margin-bottom: 5px;
+    }
+    .cart-item-price {
+        font-size: 14px;
+        color: #bbb;
+    }
+    .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 20px;
+    }
+    .qty-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        background: var(--gold);
+        color: black;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .qty-btn:hover {
+        background: #f1cb55;
+    }
+    .qty-number {
+        font-weight: bold;
+        width: 20px;
+        text-align: center;
+    }
+    .item-total-price {
+        font-weight: 600;
+        min-width: 80px;
+        text-align: right;
+    }
+
+    @media (max-width: 600px) {
+        .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .qty-controls {
+            margin: 15px 0;
+        }
+        .item-total-price {
+            align-self: flex-end;
+        }
+    }
 </style>
 </head>
 <body>
@@ -124,42 +197,42 @@
     <h1>Sepetiniz</h1>
     
     <ul id="cartItems" class="cart-list">
-        </ul>
+        <!-- Sepet öğeleri buraya yüklenecek -->
+    </ul>
 
     <div id="cartTotal" class="cart-total">Toplam Tutar: <strong>0 ₺</strong></div>
 
-    <button id="whatsappOrderBtn" class="whatsapp-btn">Siparişi Tamamla (WhatsApp)</button>
+    <button id="checkoutBtn" class="checkout-btn">Siparişi Onayla</button>
     <button id="clearCartBtn" class="clear-btn">Sepeti Temizle</button>
 </div>
 
 <script>
-    // 1. Sepet verisini localStorage'dan al
-    let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+    let rawCart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+    
+    // Eski/Yeni cart veri formatını normalize et (quantity ve image eksiklerini tamamla)
+    let cart = [];
+    rawCart.forEach(item => {
+        const existing = cart.find(n => n.name === item.name);
+        if (existing) {
+            existing.quantity += (item.quantity || 1);
+        } else {
+            let priceVal = item.priceNum;
+            if (!priceVal) {
+                priceVal = parseInt((item.price || "1000").replace(/[^\d]/g, '')) || 1000;
+            }
+            cart.push({
+                name: item.name,
+                priceNum: priceVal,
+                image: item.image || "perfume project/JAHA Bottle 1.jpeg",
+                quantity: item.quantity || 1
+            });
+        }
+    });
+    localStorage.setItem('jahaCart', JSON.stringify(cart)); // Normalize edilmiş halini kaydet
+
     const cartItemsContainer = document.getElementById('cartItems');
     const cartTotalContainer = document.getElementById('cartTotal');
-    
-    // 2. Sepet içeriğini gruplayacak yardımcı fonksiyon
-    function getGroupedCart() {
-        const grouped = {};
-        cart.forEach(item => {
-            const name = item.name.trim();
-            // Fiyat bilgisini sayıya çevir
-            let priceNum = parseInt(item.price.replace(/[^\d]/g, '')) || 1000;
-            
-            if (grouped[name]) {
-                grouped[name].quantity += 1;
-            } else {
-                grouped[name] = {
-                    name: name,
-                    priceNum: priceNum,
-                    quantity: 1
-                };
-            }
-        });
-        return grouped;
-    }
 
-    // 3. Sepet içeriğini ekrana yazdır
     function renderCart() {
         cartItemsContainer.innerHTML = '';
         
@@ -169,75 +242,70 @@
             return;
         }
 
-        const grouped = getGroupedCart();
         let total = 0;
-        let index = 1;
 
-        for (const name in grouped) {
-            const product = grouped[name];
+        cart.forEach((product, index) => {
             const itemTotal = product.priceNum * product.quantity;
             total += itemTotal;
 
             const li = document.createElement('li');
+            li.className = 'cart-item';
+            
             li.innerHTML = `
-                <span>${index}. <strong>${product.quantity} adet</strong> ${product.name}</span> 
-                <span>${itemTotal} ₺</span>
+                <div style="display:flex; align-items:center; flex:1; width: 100%;">
+                    <img src="${product.image}" class="cart-item-img" alt="${product.name}">
+                    <div class="cart-item-info">
+                        <span class="cart-item-name">${product.name}</span>
+                        <span class="cart-item-price">${product.priceNum} ₺</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:10px;">
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                        <span class="qty-number">${product.quantity}</span>
+                        <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                    </div>
+
+                    <div class="item-total-price">
+                        ${itemTotal} ₺
+                    </div>
+                </div>
             `;
             cartItemsContainer.appendChild(li);
-            index++;
-        }
+        });
 
         cartTotalContainer.innerHTML = `Toplam Tutar: <strong>${total} ₺</strong>`;
     }
 
+    // Miktar Artırma / Azaltma Fonksiyonu
+    window.updateQty = function(index, change) {
+        if (cart[index]) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1); // Adet 0 olursa ürünü sepetten çıkar
+            }
+            localStorage.setItem('jahaCart', JSON.stringify(cart));
+            renderCart();
+        }
+    };
+
     renderCart();
 
-    // 4. Sepeti Temizle Butonu
+    // Sepeti Temizle Butonu
     document.getElementById('clearCartBtn').addEventListener('click', () => {
         localStorage.removeItem('jahaCart');
         cart = [];
         renderCart();
     });
 
-    // 5. WhatsApp Sipariş Butonu (Tam Fatura Gibi Mesaj)
-    document.getElementById('whatsappOrderBtn').addEventListener('click', () => {
+    // Ödeme / Fatura Adımına Geçiş
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
         if (cart.length === 0) {
             alert("Sipariş vermek için önce sepetinize ürün eklemelisiniz.");
             return;
         }
-
-        const grouped = getGroupedCart();
-        let total = 0;
-
-        // WhatsApp için profesyonel fatura formatı
-        let message = "🧾 *JAHA PERFUME'S - SİPARİŞ DETAYLARI (FATURA)*\n";
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
-        message += `📅 *Tarih:* ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR')}\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-        message += "📦 *SİPARİŞ EDİLEN ÜRÜNLER:*\n\n";
-        
-        let index = 1;
-        for (const name in grouped) {
-            const product = grouped[name];
-            const itemTotal = product.priceNum * product.quantity;
-            total += itemTotal;
-            message += `${index}. *${product.quantity} adet* ${product.name}\n   _Fiyat: ${product.priceNum} ₺ x ${product.quantity} = ${itemTotal} ₺_\n\n`;
-            index++;
-        }
-        
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
-        message += `💰 *TOPLAM TUTAR:* *${total} ₺*\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-        message += "Merhaba, yukarıdaki fatura detaylarına göre siparişimi oluşturmak istiyorum. Yardımcı olabilir misiniz?";
-
-        // Mesajı URL formatına dönüştür (boşlukları %20 vb. yapar)
-        const encodedMessage = encodeURIComponent(message);
-        
-        // WhatsApp numarası (Ülke kodu ile birlikte)
-        const waNumber = "905515101339"; 
-        
-        // Yeni sekmede WhatsApp'ı aç
-        window.open(`https://wa.me/${waNumber}?text=${encodedMessage}`, '_blank');
+        window.location.href = 'checkout.html';
     });
 </script>
 

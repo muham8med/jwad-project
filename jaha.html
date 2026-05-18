@@ -848,7 +848,10 @@
         let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
 
         function updateCartCount() {
-            cartCounter.innerText = cart.length;
+            // Sepetteki toplam ürün adedini hesapla
+            let count = 0;
+            cart.forEach(item => { count += (item.quantity || 1); });
+            cartCounter.innerText = count;
         }
 
         function addToCart(event) {
@@ -856,14 +859,31 @@
             const card = button.closest('.card');
 
             const productName = card.querySelector('h3').innerText;
-            const productPrice = card.querySelector('.new-price').innerText;
+            const productPriceText = card.querySelector('.new-price').innerText;
+            const productPriceNum = parseInt(productPriceText.replace(/[^\d]/g, '')) || 1000;
+            const productImg = card.querySelector('.bottle-img').getAttribute('src');
 
-            const item = {
-                name: productName,
-                price: productPrice
-            };
+            // Eğer ürün zaten sepette varsa, sadece miktarını artır
+            const existingItemIndex = cart.findIndex(item => item.name === productName);
+            
+            if (existingItemIndex > -1) {
+                // Eski formatta eklenmişse (quantity yoksa) 1 olarak başlat
+                if (!cart[existingItemIndex].quantity) {
+                    cart[existingItemIndex].quantity = 1;
+                    cart[existingItemIndex].priceNum = productPriceNum;
+                    cart[existingItemIndex].image = productImg;
+                }
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                const item = {
+                    name: productName,
+                    priceNum: productPriceNum,
+                    image: productImg,
+                    quantity: 1
+                };
+                cart.push(item);
+            }
 
-            cart.push(item);
             localStorage.setItem('jahaCart', JSON.stringify(cart));
 
             updateCartCount();

@@ -346,7 +346,9 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     const cartCounter = document.querySelector('.cart-count');
 
     function updateCartCount() {
-        cartCounter.innerText = cart.length;
+        let count = 0;
+        cart.forEach(item => { count += (item.quantity || 1); });
+        cartCounter.innerText = count;
     }
     updateCartCount();
 
@@ -356,14 +358,30 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
         
         // Hangi dil olursa olsun sepete eklerken güncel başlığı alır
         const productName = card.querySelector('h3').innerText;
-        const productPrice = card.querySelector('.new-price').innerText;
+        const productPriceText = card.querySelector('.new-price').innerText;
+        const productPriceNum = parseInt(productPriceText.replace(/[^\d]/g, '')) || 1000;
+        const productImg = card.querySelector('.bottle-img').getAttribute('src');
 
-        const item = {
-            name: productName,
-            price: productPrice
-        };
+        // Eğer ürün zaten sepette varsa, sadece miktarını artır
+        const existingItemIndex = cart.findIndex(item => item.name === productName);
         
-        cart.push(item);
+        if (existingItemIndex > -1) {
+            if (!cart[existingItemIndex].quantity) {
+                cart[existingItemIndex].quantity = 1;
+                cart[existingItemIndex].priceNum = productPriceNum;
+                cart[existingItemIndex].image = productImg;
+            }
+            cart[existingItemIndex].quantity += 1;
+        } else {
+            const item = {
+                name: productName,
+                priceNum: productPriceNum,
+                image: productImg,
+                quantity: 1
+            };
+            cart.push(item);
+        }
+        
         localStorage.setItem('jahaCart', JSON.stringify(cart));
         
         updateCartCount();
