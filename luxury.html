@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JAHA PERFUME'S | Luxury Brands</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===============================
+   ROOT & RESET
+=============================== */
+:root {
+    --gold: #d4af37;
+    --dark-gold: #8f6b10;
+    --black: #050505;
+    --card: #111111;
+    --text: #f5f5f5;
+    --muted: #999;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+
+/* ===============================
+   ARAPÇA (SAĞDAN SOLA - RTL) UYUMU
+=============================== */
+body[dir="rtl"] { text-align: right; }
+body[dir="rtl"] nav { flex-direction: row-reverse; }
+body[dir="rtl"] .price-box { flex-direction: row-reverse; }
+
+/* ===============================
+   BACKGROUND ANIMATION & SMOKE
+=============================== */
+body::before {
+    content: ""; position: fixed; inset: 0;
+    background: radial-gradient(circle at top left, rgba(212,175,55,0.15), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(212,175,55,0.10), transparent 35%);
+    animation: bgMove 10s infinite alternate ease-in-out; z-index: -2;
+}
+
+@keyframes bgMove { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+.smoke { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: -1; }
+.smoke span { position: absolute; bottom: -200px; border-radius: 50%; background: rgba(212,175,55,0.08); filter: blur(40px); animation: smokeRise linear infinite; }
+.smoke span:nth-child(1) { width: 300px; height: 300px; left: 10%; animation-duration: 15s; }
+.smoke span:nth-child(2) { width: 400px; height: 400px; left: 60%; animation-duration: 18s; animation-delay: 3s; }
+.smoke span:nth-child(3) { width: 250px; height: 250px; left: 35%; animation-duration: 12s; animation-delay: 6s; }
+@keyframes smokeRise { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 0.5; } 100% { transform: translateY(-120vh) scale(1.4); opacity: 0; } }
+
+/* ===============================
+   HEADER & LANGUAGE BUTTON
+=============================== */
+header { width: 100%; position: fixed; top: 0; left: 0; padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(212,175,55,0.15); z-index: 1000; }
+.logo { font-family: 'Cinzel', serif; color: var(--gold); font-size: 28px; text-decoration: none; letter-spacing: 3px; }
+nav { display: flex; gap: 30px; align-items: center; }
+nav a { color: var(--text); text-decoration: none; font-size: 14px; transition: 0.3s; }
+nav a:hover { color: var(--gold); }
+
+.lang-btn {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    padding: 5px 15px; border-radius: 20px; cursor: pointer;
+    font-family: 'Cinzel', serif; font-weight: 600; transition: 0.3s;
+}
+.lang-btn:hover { background: var(--gold); color: var(--black); }
+
+/* ===============================
+   FLOATING CART BUTTON
+=============================== */
+.floating-cart {
+    position: fixed; right: 25px; bottom: 25px; width: 70px; height: 70px; border-radius: 50%;
+    background: linear-gradient(145deg, #d4af37, #8f6b10); display: flex; justify-content: center; align-items: center;
+    font-size: 30px; color: black; text-decoration: none; box-shadow: 0 10px 25px rgba(212,175,55,0.3); z-index: 9999; transition: 0.4s ease;
+}
+.floating-cart:hover { transform: translateY(-6px) scale(1.08); box-shadow: 0 15px 35px rgba(212,175,55,0.45); }
+.cart-count {
+    position: absolute; top: -5px; right: -5px; width: 26px; height: 26px; border-radius: 50%;
+    background: white; color: black; font-size: 13px; font-weight: 700; display: flex; justify-content: center; align-items: center;
+}
+body[dir="rtl"] .floating-cart { right: auto; left: 25px; }
+
+/* ===============================
+   SEARCH SECTION
+=============================== */
+.search-section { margin-bottom: 80px; text-align: center; }
+.search-title { font-size: 38px; color: var(--gold); margin-bottom: 30px; font-family: 'Cinzel', serif; }
+.search-box { display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+.search-input { width: 340px; max-width: 90%; padding: 15px 20px; border-radius: 50px; border: 1px solid rgba(212,175,55,0.2); background: #111; color: white; outline: none; font-size: 15px; transition: 0.3s; }
+.search-input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.15); }
+.search-btn { padding: 15px 30px; border: none; border-radius: 50px; background: var(--gold); color: black; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.search-btn:hover { transform: translateY(-3px); background: #f1cb55; }
+.search-message { margin-top: 20px; color: var(--gold); font-size: 15px; letter-spacing: 1px; min-height: 22px; }
+
+/* ===============================
+   LUXURY PAGE GENERAL & CARDS
+=============================== */
+.luxury-page-content { padding: 150px 50px 100px; text-align: center; min-height: 80vh; }
+.section-title { font-size: 42px; color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; }
+.section-subtitle { color: #ddd; font-size: 16px; letter-spacing: 2px; margin-bottom: 80px; }
+
+.category-section { margin-bottom: 100px; opacity: 0; animation: fadeUp 1s ease forwards; }
+.category-section:nth-child(1) { animation-delay: 0.2s; }
+.category-section:nth-child(2) { animation-delay: 0.5s; }
+.category-section:nth-child(3) { animation-delay: 0.8s; }
+
+.category-title { font-family: 'Cinzel', serif; color: #fff; font-size: 32px; margin-bottom: 50px; position: relative; display: inline-block; }
+.category-title::after { content: ''; position: absolute; width: 60%; height: 2px; background: var(--gold); bottom: -10px; left: 20%; }
+
+.cards { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.card { width: 300px; background: var(--card); padding: 40px 25px; border: 1px solid rgba(212,175,55,0.15); border-radius: 20px; transition: 0.5s; position: relative; overflow: hidden; cursor: pointer; }
+.card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(212,175,55,0.08)); opacity: 0; transition: 0.5s; pointer-events: none; }
+.card:hover::before { opacity: 1; }
+.card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(212,175,55,0.15); }
+
+.bottle-img { width: 100%; height: 220px; object-fit: contain; margin-bottom: 25px; filter: drop-shadow(0 10px 15px rgba(212,175,55,0.15)); transition: 0.5s; }
+.card:hover .bottle-img { transform: scale(1.1); }
+
+.card h3 { font-size: 24px; margin-bottom: 10px; color: var(--gold); font-family: 'Cinzel', serif; }
+.card p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+
+.price-box { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.discount { background: var(--gold); color: #000; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 30px; letter-spacing: 1px; }
+.old-price { color: #777; text-decoration: line-through; font-size: 16px; }
+.new-price { color: #fff; font-size: 22px; font-weight: 600; letter-spacing: 1px; }
+
+/* ===============================
+   BUTTONS (WHATSAPP & SEPET)
+=============================== */
+.action-buttons { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; position: relative; z-index: 10; }
+.action-buttons .card-btn { margin-top: 0; }
+
+.add-to-cart-btn { display: inline-block; padding: 10px 20px; background: var(--gold); color: #000; border: 1px solid var(--gold); border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: 0.3s ease; font-family: inherit; }
+.card:hover .add-to-cart-btn { box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+.add-to-cart-btn:hover { background: transparent; color: var(--gold); }
+
+.card-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 1px; transition: 0.3s ease; position: relative; z-index: 10; }
+.card:hover .card-btn { background: var(--gold); color: #000; box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+
+/* ===============================
+   FOOTER & RESPONSIVE
+=============================== */
+footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,175,55,0.1); color: #777; font-size: 14px; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+    header { padding: 20px; flex-direction: column; gap: 15px;}
+    nav { gap: 15px; flex-wrap: wrap; justify-content: center;}
+    .floating-cart { width: 62px; height: 62px; font-size: 26px; right: 18px; bottom: 18px; }
+    body[dir="rtl"] .floating-cart { left: 18px; right: auto; }
+    .section-title { font-size: 30px; }
+    .category-title { font-size: 26px; }
+    .luxury-page-content { padding: 160px 20px 60px; }
+    .card { width: 100%; max-width: 350px; } 
+}
+</style>
+</head>
+
+<body dir="ltr">
+
+<a href="sepet.html" class="floating-cart" id="cartBtn">
+    🛒<span class="cart-count">0</span>
+</a>
+
+<div class="smoke">
+    <span></span><span></span><span></span>
+</div>
+
+<header>
+    <a href="index.html" class="logo">JAHA PERFUME'S</a>
+    <nav>
+        <a href="index.html" class="translatable" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+        <a href="index.html#collection" class="translatable" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+        <a href="luxury.html" style="color: var(--gold);" class="translatable" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
+        <a href="index.html#contact" class="translatable" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+        <button id="langBtn" class="lang-btn">AR</button>
+    </nav>
+</header>
+
+<section class="luxury-page-content">
+
+    <section class="search-section">
+        <h2 class="search-title translatable" data-tr="Parfüm Ara" data-ar="ابحث عن عطر">Parfüm Ara</h2>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input translatable-placeholder" data-tr-placeholder="Parfüm ismi yaz..." data-ar-placeholder="اكتب اسم العطر..." placeholder="Parfüm ismi yaz..." />
+            <button id="searchBtn" class="search-btn translatable" data-tr="Ara" data-ar="بحث">Ara</button>
+        </div>
+        <p id="searchMessage" class="search-message"></p>
+    </section>
+
+    <h1 class="section-title translatable" data-tr="Lüks Markalar" data-ar="الماركات الفاخرة">Lüks Markalar</h1>
+    <p class="section-subtitle translatable" data-tr="Dünyanın en seçkin esansları kategorilerle buluşuyor." data-ar="تلتقي أرقى العطور في العالم مع الفئات الحصرية.">Dünyanın en seçkin esansları kategorilerle buluşuyor.</p>
+
+    <div class="category-section">
+        <h2 class="category-title translatable" data-tr="Erkek Koleksiyonu" data-ar="المجموعة الرجالية">Erkek Koleksiyonu</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
+                <h3 class="translatable" data-tr="ÖZEL JAHA İNDİRİMİ" data-ar="خصم جاها الخاص">ÖZEL JAHA İNDİRİMİ</h3>
+                <p class="translatable" data-tr="Odunsu notalar ve karabiberin maskülen ve keskin birleşimi." data-ar="مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.">Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.</p>
+                <div class="price-box">
+                    <span class="discount">-33%</span>
+                    <span class="old-price">₺1.500</span>
+                    <span class="new-price">₺999</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+                    <a href="https://wa.me/905515101339?text=Merhabalar..." target="_blank" class="card-btn translatable" data-tr="WhatsApp" data-ar="واتساب">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h2 class="category-title translatable" data-tr="En Çok Sevilen Koleksiyonu" data-ar="المجموعة الأكثر شهرة">En Çok Sevilen Koleksiyonu</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="Zarif Şişe" class="bottle-img">
+                <h3 class="translatable" data-tr="Velvet Rose" data-ar="فيلفيت روز">Velvet Rose</h3>
+                <p class="translatable" data-tr="İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti." data-ar="الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.">İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.</p>
+                <div class="price-box">
+                    <span class="discount">-33%</span>
+                    <span class="old-price">₺1.500</span>
+                    <span class="new-price">₺999</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+                    <a href="https://wa.me/905515101339?text=Merhabalar..." target="_blank" class="card-btn translatable" data-tr="WhatsApp" data-ar="واتساب">WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
+                <h3 class="translatable" data-tr="Golden Aura" data-ar="الهالة الذهبية">Golden Aura</h3>
+                <p class="translatable" data-tr="Güneşin sıcaklığını hissettiren amber ve vanilya notaları." data-ar="ملاحظات العنبر والفانيليا التي تجعلك تشعر بدفء الشمس.">Güneşin sıcaklığını hissettiren amber ve vanilya notaları.</p>
+                <div class="price-box">
+                    <span class="discount">-20%</span>
+                    <span class="old-price">₺2.000</span>
+                    <span class="new-price">₺1.600</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+                    <a href="https://wa.me/905515101339?text=Merhabalar..." target="_blank" class="card-btn translatable" data-tr="WhatsApp" data-ar="واتساب">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-section">
+        <h2 class="category-title translatable" data-tr="Özel Seri" data-ar="السلسلة الخاصة">Özel Seri</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
+                <h3 class="translatable" data-tr="Royal Oud" data-ar="العود الملكي">Royal Oud</h3>
+                <p class="translatable" data-tr="Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu." data-ar="اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.">Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.</p>
+                <div class="price-box">
+                    <span class="discount">-15%</span>
+                    <span class="old-price">₺3.000</span>
+                    <span class="new-price">₺2.550</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+                    <a href="https://wa.me/905515101339?text=Merhabalar..." target="_blank" class="card-btn translatable" data-tr="WhatsApp" data-ar="واتساب">WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
+                <h3 class="translatable" data-tr="Midnight Elixir" data-ar="إكسير منتصف الليل">Midnight Elixir</h3>
+                <p class="translatable" data-tr="Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı." data-ar="رقصة التوابل الغامضة والأوركيد الأسود في عمق الليل.">Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı.</p>
+                <div class="price-box">
+                    <span class="discount">-10%</span>
+                    <span class="old-price">₺2.500</span>
+                    <span class="new-price">₺2.250</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+                    <a href="https://wa.me/905515101339?text=Merhabalar..." target="_blank" class="card-btn translatable" data-tr="WhatsApp" data-ar="واتساب">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="translatable" data-tr="© 2026 JAHA PERFUME'S — Luxury Fragrance Experience" data-ar="© 2026 عطور جاها — تجربة العطور الفاخرة">
+    © 2026 JAHA PERFUME'S — Luxury Fragrance Experience
+</footer>
+
+<script>
+    /* =========================================
+       BÜTÜN JAVASCRIPT KODLARI BURADA BİRLEŞTİRİLDİ
+    ========================================= */
+
+    // --- 1. DİL (LANGUAGE) SİSTEMİ ---
+    const langBtn = document.getElementById('langBtn');
+    let currentLang = 'tr'; 
+
+    function updatePlaceholder() {
+        const placeholders = document.querySelectorAll('.translatable-placeholder');
+        placeholders.forEach(el => {
+            el.placeholder = currentLang === 'ar' 
+                ? el.getAttribute('data-ar-placeholder') 
+                : el.getAttribute('data-tr-placeholder');
+        });
+    }
+
+    langBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'tr' ? 'ar' : 'tr';
+        langBtn.textContent = currentLang === 'tr' ? 'AR' : 'TR';
+        
+        // Yön (RTL/LTR) Ayarı
+        document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.lang = currentLang;
+
+        // Metinlerin Çevrilmesi
+        const elements = document.querySelectorAll('.translatable');
+        elements.forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+
+        // Arama Çubuğu Placeholder'ı Güncelle
+        updatePlaceholder();
+    });
+
+    // Sayfa açılışında placeholder ayarını çalıştır
+    updatePlaceholder();
+
+
+    // --- 2. SEPET (CART) SİSTEMİ ---
+    let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCounter = document.querySelector('.cart-count');
+
+    function updateCartCount() {
+        cartCounter.innerText = cart.length;
+    }
+    updateCartCount();
+
+    function addToCart(event) {
+        const button = event.target;
+        const card = button.closest('.card');
+        
+        // Hangi dil olursa olsun sepete eklerken güncel başlığı alır
+        const productName = card.querySelector('h3').innerText;
+        const productPrice = card.querySelector('.new-price').innerText;
+
+        const item = {
+            name: productName,
+            price: productPrice
+        };
+        
+        cart.push(item);
+        localStorage.setItem('jahaCart', JSON.stringify(cart));
+        
+        updateCartCount();
+        
+        cartBtn.style.transform = 'scale(1.15)';
+        setTimeout(() => { cartBtn.style.transform = 'scale(1)'; }, 200);
+    }
+
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+
+
+    // --- 3. DİNAMİK ARAMA (SEARCH) SİSTEMİ ---
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchMessage = document.getElementById('searchMessage');
+    const perfumeCards = document.querySelectorAll('.card');
+
+    function resetCards() {
+        perfumeCards.forEach(card => {
+            card.style.borderColor = 'rgba(212,175,55,0.15)';
+            card.style.transform = 'translateY(0)';
+        });
+    }
+
+    function searchPerfume() {
+        const value = searchInput.value.trim().toLowerCase();
+        searchMessage.innerText = ''; // Mesajı temizle
+
+        if(value === '') {
+            searchMessage.innerText = currentLang === 'ar' ? 'الرجاء كتابة اسم العطر' : 'Lütfen parfüm adı yazın';
+            resetCards();
+            return;
+        }
+
+        resetCards();
+        let found = false;
+
+        perfumeCards.forEach(card => {
+            // Dinamik olarak kartın güncel h3 başlığını alıyoruz
+            // Böylece dil Arapça bile olsa, ekrandaki yazıyla arama çalışır!
+            const title = card.querySelector('h3').innerText.toLowerCase();
+
+            if(title.includes(value)) {
+                found = true;
+                
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.borderColor = '#d4af37';
+                card.style.transform = 'translateY(-10px)';
+            }
+        });
+
+        if(found) {
+            searchMessage.innerText = currentLang === 'ar' ? 'تم العثور على العطر' : 'Parfüm bulundu';
+            searchMessage.style.color = '#d4af37';
+        } else {
+            searchMessage.innerText = currentLang === 'ar' ? 'العطر غير موجود' : 'Parfüm bulunamadı';
+            searchMessage.style.color = '#ff4d4d'; // Bulunamadıysa kırmızımsı bir uyarı daha iyi olur
+        }
+    }
+
+    searchBtn.addEventListener('click', searchPerfume);
+    searchInput.addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') { searchPerfume(); }
+    });
+
+</script>
+</body>
+</html>

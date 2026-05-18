@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JAHA PERFUME'S | Luxury Fragrance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===============================
+   ROOT VARIABLES & RESET
+=============================== */
+:root {
+    --gold: #d4af37;
+    --dark-gold: #8f6b10;
+    --black: #050505;
+    --card: #111111;
+    --text: #f5f5f5;
+    --muted: #999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+
+/* ===============================
+   ARAPÇA (SAĞDAN SOLA - RTL) UYUMU
+=============================== */
+body[dir="rtl"] {
+    text-align: right;
+}
+body[dir="rtl"] nav {
+    flex-direction: row-reverse;
+}
+body[dir="rtl"] .hero {
+    text-align: center;
+}
+body[dir="rtl"] .contact-box {
+    text-align: right;
+}
+
+/* ===============================
+   BACKGROUND ANIMATION & SMOKE
+=============================== */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at top left, rgba(212,175,55,0.15), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(212,175,55,0.10), transparent 35%);
+    animation: bgMove 10s infinite alternate ease-in-out;
+    z-index: -2;
+}
+
+@keyframes bgMove {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.smoke {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.smoke span {
+    position: absolute;
+    bottom: -200px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.08);
+    filter: blur(40px);
+    animation: smokeRise linear infinite;
+}
+
+.smoke span:nth-child(1) { width: 300px; height: 300px; left: 10%; animation-duration: 15s; }
+.smoke span:nth-child(2) { width: 400px; height: 400px; left: 60%; animation-duration: 18s; animation-delay: 3s; }
+.smoke span:nth-child(3) { width: 250px; height: 250px; left: 35%; animation-duration: 12s; animation-delay: 6s; }
+
+@keyframes smokeRise {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.5; }
+    100% { transform: translateY(-120vh) scale(1.4); opacity: 0; }
+}
+
+/* ===============================
+   HEADER & LANGUAGE BUTTON
+=============================== */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.4);
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+    z-index: 1000;
+}
+
+.logo {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 28px;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--gold);
+}
+
+.lang-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.lang-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+}
+
+/* ===============================
+   FLOATING CART BUTTON
+=============================== */
+.floating-cart {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d4af37, #8f6b10);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(212,175,55,0.3);
+    z-index: 9999;
+    transition: 0.4s ease;
+}
+
+.floating-cart:hover {
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: 0 15px 35px rgba(212,175,55,0.45);
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body[dir="rtl"] .floating-cart {
+    right: auto;
+    left: 25px;
+}
+
+/* ===============================
+   HERO SECTION
+=============================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.hero-content {
+    position: relative;
+    animation: fadeUp 1.5s ease forwards;
+    z-index: 1;
+}
+.hero-content::before {
+    content: "";
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Tam merkeze hizalar */
+    width: 450px; /* Logonun genişliği */
+    height: 450px; /* Logonun yüksekliği */
+    background-image: url('perfume project/jaha logo.jpeg'); /* BURAYA KENDİ LOGONUN ADINI YAZ */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.15; /* Saydamlık ayarı: 1 yaparsan tam görünür, 0.15 silik bir hava katar */
+    z-index: -1; /* Yazının arkasına atar */
+    pointer-events: none; /* Logonun tıklamaları engellemesini önler */
+}
+@media (max-width: 768px) {
+    /* Diğer mobil kodların burada duruyor... */
+    
+    .hero-content::before {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+.hero h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 80px;
+    color: var(--gold);
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    color: #ddd;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 35px;
+}
+
+.hero button {
+    padding: 15px 40px;
+    border: none;
+    background: var(--gold);
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.4s;
+    font-size: 15px;
+}
+
+.hero button:hover {
+    transform: translateY(-5px);
+    background: #f1cb55;
+    box-shadow: 0 10px 25px rgba(212,175,55,0.3);
+}
+
+/* ===============================
+   SEARCH SECTION
+=============================== */
+.search-section {
+    padding: 80px 20px 40px;
+    text-align: center;
+}
+
+.search-title {
+    font-size: 40px;
+    color: var(--gold);
+    margin-bottom: 30px;
+    font-family: 'Cinzel', serif;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    width: 320px;
+    max-width: 90%;
+    padding: 15px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(212,175,55,0.3);
+    background: #111;
+    color: white;
+    outline: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.search-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(212,175,55,0.2);
+}
+
+.search-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    background: var(--gold);
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    transform: translateY(-3px);
+    background: #f1cb55;
+}
+
+.search-message {
+    margin-top: 25px;
+    color: var(--gold);
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+/* ===============================
+   PERFUME COLLECTION SECTION
+=============================== */
+.collection {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 42px;
+    color: var(--gold);
+    margin-bottom: 70px;
+    font-family: 'Cinzel', serif;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 280px;
+    background: var(--card);
+    padding: 40px 25px;
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 20px;
+    transition: 0.5s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent, rgba(212,175,55,0.08));
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.card:hover::before { opacity: 1; }
+
+.card:hover {
+    transform: translateY(-15px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 40px rgba(212,175,55,0.15);
+}
+
+.bottle-img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 10px 15px rgba(212,175,55,0.15));
+    transition: 0.5s;
+}
+
+.card:hover .bottle-img { transform: scale(1.1); }
+
+.card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+    flex-grow: 1; /* Alttaki elemanları hizalamak için */
+}
+
+/* YENİ EKLENEN: Fiyat ve Sepet Butonu Düzeni */
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.new-price {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.add-to-cart-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+}
+
+/* ===============================
+   CONTACT SECTION
+=============================== */
+.contact {
+    padding: 100px 50px;
+    text-align: center;
+}
+
+.contact-box {
+    background: var(--card);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 50px 30px;
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 20px;
+    transition: 0.5s;
+}
+
+.contact-box:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px rgba(212,175,55,0.1);
+}
+
+.contact-box p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.contact-box p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-box strong {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 8px;
+}
+
+/* ===============================
+   FOOTER
+=============================== */
+footer {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(212,175,55,0.1);
+    color: #777;
+    font-size: 14px;
+}
+
+/* ===============================
+   ANIMATION & RESPONSIVE
+=============================== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    header { padding: 20px; flex-direction: column; gap: 15px;}
+    nav { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;}
+    .hero h1 { font-size: 46px; }
+    .hero p { font-size: 14px; }
+    .section-title { font-size: 30px; margin-bottom: 40px; }
+    .collection { padding: 60px 20px; }
+    .contact { padding: 60px 20px; }
+    .contact-box { padding: 40px 20px; }
+    .floating-cart { width: 62px; height: 62px; font-size: 26px; right: 18px; bottom: 18px; }
+    body[dir="rtl"] .floating-cart { left: 18px; }
+}
+</style>
+</head>
+
+<body dir="ltr">
+
+<a href="sepet.html" class="floating-cart" id="cartBtn">
+    🛒
+    <span class="cart-count">0</span>
+</a>
+
+<div class="smoke">
+    <span></span><span></span><span></span>
+</div>
+
+<header>
+    <a href="#" class="logo">JAHA PERFUME'S</a>
+    <nav>
+        <a href="#" class="translatable" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+        <a href="#collection" class="translatable" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+        <a href="luxury.html" class="translatable" data-tr="Lüks" data-ar="فاخر">Lüks</a>
+        <a href="#contact" class="translatable" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+        <button id="langBtn" class="lang-btn">AR</button>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>JAHA PERFUME'S</h1>
+        <p class="translatable" data-tr="Lüks Altın Esans Koleksiyonu" data-ar="مجموعة العطور الذهبية الفاخرة">Lüks Altın Esans Koleksiyonu</p>
+        <button onclick="window.location.href='luxury.html'" class="translatable" data-tr="Koleksiyonu Keşfet" data-ar="اكتشف المجموعة"> Koleksiyonu Keşfet </button>
+    </div>
+</section>
+
+<section class="search-section">
+    <h2 class="search-title translatable" data-tr="Parfüm Ara" data-ar="ابحث عن عطر">
+        Parfüm Ara
+    </h2>
+    <div class="search-box">
+        <input type="text" id="searchInput" class="search-input translatable-placeholder" data-tr-placeholder="Parfüm ismi yaz..." data-ar-placeholder="اكتب اسم العطر..." placeholder="Parfüm ismi yaz..." />
+        <button id="searchBtn" class="search-btn translatable" data-tr="Ara" data-ar="بحث">Ara</button>
+    </div>
+    <p id="searchMessage" class="search-message"></p>
+</section>
+
+<section id="collection" class="collection">
+    <h2 class="section-title translatable" data-tr="Özel Ürünlerimiz" data-ar="منتجاتنا الخاصة">Özel Ürünlerimiz</h2>
+    
+    <div class="cards">
+        <div class="card">
+            <img src="perfume project/JAHA Bottle 1.jpeg" alt="Golden Oud Perfume" class="bottle-img">
+            <h3>Golden Oud</h3>
+            <p class="translatable" data-tr="Yoğun oud, amber ve sıcak vanilya notaları ile güçlü ve lüks bir his bırakır." data-ar="يترك شعوراً قوياً وفاخراً مع نفحات العود المكثفة والعنبر والفانيليا الدافئة.">Yoğun oud, amber ve sıcak vanilya notaları ile güçlü ve lüks bir his bırakır.</p>
+            
+            <div class="card-actions">
+                <span class="new-price">2500 ₺</span>
+                <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="perfume project/JAHA Bottle 1.jpeg" alt="Black Royal Perfume" class="bottle-img">
+            <h3>Black Royal</h3>
+            <p class="translatable" data-tr="Siyah misk, baharatlı dokular ve gizemli odunsu esansların birleşimi." data-ar="مزيج من المسك الأسود، والقوام الحار، والخلاصات الخشبية الغامضة.">Siyah misk, baharatlı dokular ve gizemli odunsu esansların birleşimi.</p>
+            
+            <div class="card-actions">
+                <span class="new-price">2800 ₺</span>
+                <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="perfume project/JAHA Bottle 1.jpeg" alt="Night Velvet Perfume" class="bottle-img">
+            <h3>Night Velvet</h3>
+            <p class="translatable" data-tr="Modern altın dokunuşlarıyla premium gece kokusunu yeniden tanımlar." data-ar="يعيد تعريف عطر الليل الفاخر بلمسات ذهبية حديثة.">Modern altın dokunuşlarıyla premium gece kokusunu yeniden tanımlar.</p>
+            
+            <div class="card-actions">
+                <span class="new-price">3100 ₺</span>
+                <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <h2 class="section-title translatable" data-tr="Bize Ulaşın" data-ar="اتصل بنا">Bize Ulaşın</h2>
+    <div class="contact-box">
+        <p><strong class="translatable" data-tr="E-Posta:" data-ar="البريد الإلكتروني:">E-Posta:</strong> jahaperfumes@gmail.com</p>
+        <p><strong class="translatable" data-tr="Telefon:" data-ar="الهاتف:">Telefon:</strong> +90 551 510 13 39</p>
+        <p><strong class="translatable" data-tr="Adres:" data-ar="العنوان:">Adres:</strong> <span class="translatable" data-tr="Fatih, Emniyet, İstanbul, Türkiye" data-ar="الفاتح، أمنيات، إسطنبول، تركيا">Fatih, Emniyet, İstanbul, Türkiye</span></p>
+        <p><strong class="translatable" data-tr="Kurucu:" data-ar="المؤسس:">Kurucu:</strong> Jwad Aljundi - Ahmet Alismail</p>
+    </div>
+</section>
+
+<footer class="translatable" data-tr="© 2026 JAHA PERFUME'S — Lüks Parfüm Deneyimi" data-ar="© 2026 عطور جاها — تجربة العطور الفاخرة">
+    © 2026 JAHA PERFUME'S — Lüks Parfüm Deneyimi
+</footer>
+
+<script>
+    // --- 1. GLOBAL DEĞİŞKENLER ---
+    let currentLang = 'tr'; 
+    const langBtn = document.getElementById('langBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchMessage = document.getElementById('searchMessage');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCounter = document.querySelector('.cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    // --- 2. DİL DEĞİŞTİRME (LANGUAGE TOGGLE) ---
+    function updatePlaceholder() {
+        const placeholders = document.querySelectorAll('.translatable-placeholder');
+        placeholders.forEach(el => {
+            el.placeholder = currentLang === 'ar' 
+                ? el.getAttribute('data-ar-placeholder') 
+                : el.getAttribute('data-tr-placeholder');
+        });
+    }
+
+    langBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'tr' ? 'ar' : 'tr';
+        langBtn.textContent = currentLang === 'tr' ? 'AR' : 'TR';
+        
+        // Sağdan sola / Soldan sağa
+        document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.lang = currentLang;
+
+        // Metinleri Çevir
+        const elements = document.querySelectorAll('.translatable');
+        elements.forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+
+        // Placeholder'ı Çevir
+        updatePlaceholder();
+        
+        // Eğer arama mesajı ekranda duruyorsa onu da temizle/güncelle
+        searchMessage.innerText = ""; 
+    });
+
+    // Başlangıçta placeholder ayarla
+    updatePlaceholder();
+
+    // --- 3. ARAMA SİSTEMİ (SEARCH SYSTEM) ---
+    const perfumes = [
+        { name: "golden oud", element: document.querySelectorAll('.card')[0] },
+        { name: "black royal", element: document.querySelectorAll('.card')[1] },
+        { name: "night velvet", element: document.querySelectorAll('.card')[2] }
+    ];
+
+    function searchPerfume() {
+        const value = searchInput.value.trim().toLowerCase();
+
+        if(value === "") {
+            searchMessage.innerText = currentLang === 'ar' ? "الرجاء كتابة اسم العطر" : "Lütfen parfüm adı yazın";
+            return;
+        }
+
+        let found = false;
+
+        perfumes.forEach(perfume => {
+            perfume.element.style.borderColor = "rgba(212,175,55,0.15)";
+            perfume.element.style.transform = "translateY(0px)";
+
+            if(perfume.name.includes(value)) {
+                found = true;
+                perfume.element.scrollIntoView({ behavior: "smooth", block: "center" });
+                perfume.element.style.borderColor = "#d4af37";
+                perfume.element.style.transform = "translateY(-10px)";
+                searchMessage.innerText = currentLang === 'ar' ? "تم العثور على العطر" : "Parfüm bulundu";
+            }
+        });
+
+        if(!found) {
+            searchMessage.innerText = currentLang === 'ar' ? "العطر غير موجود" : "Parfüm bulunamadı";
+        }
+    }
+
+    searchBtn.addEventListener('click', searchPerfume);
+    searchInput.addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') {
+            searchPerfume();
+        }
+    });
+
+    // --- 4. SEPET SİSTEMİ (CART SYSTEM) ---
+    let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+
+    function updateCartCount() {
+        cartCounter.innerText = cart.length;
+    }
+
+    function addToCart(event) {
+        const button = event.target;
+        const card = button.closest('.card');
+        
+        const productName = card.querySelector('h3').innerText;
+        const productPrice = card.querySelector('.new-price').innerText;
+
+        const item = {
+            name: productName,
+            price: productPrice
+        };
+        
+        cart.push(item);
+        localStorage.setItem('jahaCart', JSON.stringify(cart));
+        
+        updateCartCount();
+        
+        // Sepet butonu animasyonu
+        cartBtn.style.transform = 'scale(1.15)';
+        setTimeout(() => {
+            cartBtn.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+
+    // Başlangıçta sepet sayısını yansıt
+    updateCartCount();
+
+</script>
+</body>
+</html>
