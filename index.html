@@ -1091,7 +1091,84 @@
         // Sayfa ilk yüklendiğinde dil ayarını çalıştır
         setLanguage(currentLang);
 
-        // --- 3. ARAMA SİSTEMİ (SEARCH SYSTEM) ---
+        // --- 3. GLOBAL ARAMA SİSTEMİ VE VERİ TABANI ---
+        const globalPerfumes = [
+            // Home Page Products
+            {
+                nameTr: "Golden Oud",
+                nameAr: "العود الذهبي",
+                descTr: "Yoğun oud, amber ve sıcak vanilya notaları ile güçlü ve lüks bir his bırakır.",
+                descAr: "يترك شعوراً قوياً وفاخراً مع نفحات العود المكثفة والعنبر والفانيليا الدافئة.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "1000 ₺",
+                page: "index.html#collection"
+            },
+            {
+                nameTr: "Black Royal",
+                nameAr: "رويال بلاك",
+                descTr: "Siyah misk, baharatlı dokular ve gizemli odunsu esansların birleşimi.",
+                descAr: "مزيج من المسك الأسود، والقوام الحار، والخلاصات الخشبية الغامضة.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "1000 ₺",
+                page: "index.html#collection"
+            },
+            {
+                nameTr: "Night Velvet",
+                nameAr: "مخمل الليل",
+                descTr: "Modern altın dokunuşlarıyla premium gece kokusunu yeniden tanımlar.",
+                descAr: "يعيد تعريف عطر الليل الفاخر بلمسات ذهبية حديثة.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "1000 ₺",
+                page: "index.html#collection"
+            },
+            // Luxury Page Products
+            {
+                nameTr: "ÖZEL JAHA İNDİRİMİ",
+                nameAr: "خصم جاها الخاص",
+                descTr: "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
+                descAr: "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "₺1.000",
+                page: "luxury.html"
+            },
+            {
+                nameTr: "Velvet Rose",
+                nameAr: "فيلفيت روز",
+                descTr: "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
+                descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "₺1.000",
+                page: "luxury.html"
+            },
+            {
+                nameTr: "Golden Aura",
+                nameAr: "الهالة الذهبية",
+                descTr: "Güneşin sıcaklığını hissettiren amber ve vanilya notaları.",
+                descAr: "ملاحظات العنبر والفانيليا التي تجعلك تشعر بدفء الشمس.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "₺1.000",
+                page: "luxury.html"
+            },
+            {
+                nameTr: "Royal Oud",
+                nameAr: "العود الملكي",
+                descTr: "Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.",
+                descAr: "اللمسة الفaخرة والدائمة لخشب العود الآسيوي الحقيقي.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "₺1.000",
+                page: "luxury.html"
+            },
+            {
+                nameTr: "Midnight Elixir",
+                nameAr: "إكسير منتصف الليل",
+                descTr: "Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı.",
+                descAr: "رقصة التوابل الغامضة والأوركيد الأسود في عمق الليل.",
+                img: "perfume project/JAHA Bottle 1.jpeg",
+                price: "₺1.000",
+                page: "luxury.html"
+            }
+        ];
+
         const perfumeCards = document.querySelectorAll('.card');
 
         function resetCards() {
@@ -1133,9 +1210,42 @@
                     searchMessage.style.color = '#d4af37';
                 }
             } else {
-                if (searchMessage) {
-                    searchMessage.innerText = currentLang === 'ar' ? "العطر غير موجود" : "Parfüm bulunamadı";
-                    searchMessage.style.color = '#ff4d4d';
+                // Hangi sayfada olursa olsun global veritabanından kontrol et
+                let existsGlobally = false;
+                let targetPage = "";
+                let targetName = "";
+                
+                globalPerfumes.forEach(pData => {
+                    const matchTr = pData.nameTr.toLowerCase().includes(value);
+                    const matchAr = pData.nameAr.toLowerCase().includes(value);
+                    if (matchTr || matchAr) {
+                        existsGlobally = true;
+                        targetPage = pData.page;
+                        targetName = currentLang === 'ar' ? pData.nameAr : pData.nameTr;
+                    }
+                });
+
+                if (existsGlobally) {
+                    if (searchMessage) {
+                        let basePage = targetPage;
+                        let hash = "";
+                        if (targetPage.includes("#")) {
+                            const parts = targetPage.split("#");
+                            basePage = parts[0];
+                            hash = "#" + parts[1];
+                        }
+                        const finalUrl = basePage + "?search=" + encodeURIComponent(targetName) + hash;
+
+                        searchMessage.innerHTML = currentLang === 'ar' 
+                            ? `هذا العطر موجود في القسم الآخر. <a href="${finalUrl}" style="color:#d4af37;text-decoration:underline;">انقر هنا للذهاب إليه</a>` 
+                            : `Bu parfüm diğer sayfada mevcut. <a href="${finalUrl}" style="color:#d4af37;text-decoration:underline;">Gitmek için tıklayın</a>`;
+                        searchMessage.style.color = '#d4af37';
+                    }
+                } else {
+                    if (searchMessage) {
+                        searchMessage.innerText = currentLang === 'ar' ? "العطر غير موجود" : "Parfüm bulunamadı";
+                        searchMessage.style.color = '#ff4d4d';
+                    }
                 }
             }
         }
@@ -1168,49 +1278,73 @@
 
             let matchCount = 0;
 
-            perfumeCards.forEach((card) => {
-                const h3 = card.querySelector('h3');
-                const p = card.querySelector('p');
-                const img = card.querySelector('.bottle-img');
-                const price = card.querySelector('.new-price');
+            globalPerfumes.forEach((pData) => {
+                const nameTr = pData.nameTr.toLowerCase();
+                const nameAr = pData.nameAr.toLowerCase();
+                const descTr = pData.descTr.toLowerCase();
+                const descAr = pData.descAr.toLowerCase();
 
-                if (!h3) return;
+                const currentName = currentLang === 'ar' ? pData.nameAr : pData.nameTr;
+                const currentDesc = currentLang === 'ar' ? pData.descAr : pData.descTr;
 
-                const nameTr = (h3.getAttribute('data-tr') || h3.innerText).toLowerCase();
-                const nameAr = (h3.getAttribute('data-ar') || '').toLowerCase();
-                
-                const currentName = currentLang === 'ar' ? (h3.getAttribute('data-ar') || h3.innerText) : (h3.getAttribute('data-tr') || h3.innerText);
-                const currentDesc = p ? (currentLang === 'ar' ? (p.getAttribute('data-ar') || p.innerText) : (p.getAttribute('data-tr') || p.innerText)) : '';
-                const imgSrc = img ? img.getAttribute('src') : '';
-                const priceText = price ? price.innerText : '';
-
-                if (nameTr.includes(query) || nameAr.includes(query)) {
+                if (nameTr.includes(query) || nameAr.includes(query) || descTr.includes(query) || descAr.includes(query)) {
                     matchCount++;
                     const item = document.createElement('div');
                     item.className = 'suggestion-item';
                     item.innerHTML = `
-                        <img src="${imgSrc}" class="suggestion-img" alt="${currentName}">
+                        <img src="${pData.img}" class="suggestion-img" alt="${currentName}">
                         <div class="suggestion-info">
                             <div class="suggestion-name">${currentName}</div>
                             <div class="suggestion-desc">${currentDesc}</div>
                         </div>
-                        <div class="suggestion-price">${priceText}</div>
+                        <div class="suggestion-price">${pData.price}</div>
                     `;
 
                     item.addEventListener('click', function() {
                         searchInput.value = currentName;
                         suggestionsBox.style.display = 'none';
                         
-                        resetCards();
-                        setTimeout(() => {
-                            card.scrollIntoView({ behavior: "smooth", block: "center" });
-                            card.style.borderColor = "#d4af37";
-                            card.style.transform = "translateY(-10px)";
-                            if (searchMessage) {
-                                searchMessage.innerText = currentLang === 'ar' ? "تم العثور على العطر" : "Parfüm bulundu";
-                                searchMessage.style.color = '#d4af37';
+                        // Bu sayfada var mı kontrol et
+                        let targetCard = null;
+                        perfumeCards.forEach(card => {
+                            const h3 = card.querySelector('h3');
+                            if (h3) {
+                                const trName = (h3.getAttribute('data-tr') || h3.innerText).toLowerCase();
+                                const arName = (h3.getAttribute('data-ar') || '').toLowerCase();
+                                if (trName === nameTr || arName === nameAr) {
+                                    targetCard = card;
+                                }
                             }
-                        }, 100);
+                        });
+
+                        if (targetCard) {
+                            resetCards();
+                            setTimeout(() => {
+                                targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                                targetCard.style.borderColor = "#d4af37";
+                                targetCard.style.transform = "translateY(-10px)";
+                                if (searchMessage) {
+                                    searchMessage.innerText = currentLang === 'ar' ? "تم العثور على العطر" : "Parfüm bulundu";
+                                    searchMessage.style.color = '#d4af37';
+                                }
+                            }, 100);
+                        } else {
+                            // Diğer sayfaya yönlendir ve parametre olarak yolla
+                            let targetPage = pData.page;
+                            const currentPath = window.location.pathname;
+                            if (currentPath.includes('jaha.html') && targetPage.includes('index.html')) {
+                                targetPage = targetPage.replace('index.html', 'jaha.html');
+                            }
+                            
+                            let basePage = targetPage;
+                            let hash = "";
+                            if (targetPage.includes("#")) {
+                                const parts = targetPage.split("#");
+                                basePage = parts[0];
+                                hash = "#" + parts[1];
+                            }
+                            window.location.href = basePage + "?search=" + encodeURIComponent(currentName) + hash;
+                        }
                     });
 
                     suggestionsBox.appendChild(item);
@@ -1230,6 +1364,23 @@
                 suggestionsBox.style.display = 'none';
             }
         });
+
+        // --- 3.2. URL'DEN GELEN ARAMA PARAMETRESİNİ KONTROL ET ---
+        function checkUrlSearchParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchVal = urlParams.get('search');
+            if (searchVal) {
+                searchInput.value = searchVal;
+                
+                const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({ path: newUrl }, '', newUrl);
+
+                setTimeout(() => {
+                    searchPerfume();
+                }, 500);
+            }
+        }
+        checkUrlSearchParam();
 
         // --- 4. SEPET SİSTEMİ (CART SYSTEM) ---
         let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
