@@ -645,16 +645,58 @@
 
         @media (max-width: 768px) {
             header {
-                padding: 20px;
-                flex-direction: column;
-                gap: 15px;
+                padding: 15px 10px;
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+                gap: 12px 8px;
+                align-items: center;
+                justify-items: center;
             }
 
             nav {
-                display: flex;
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: contents;
+            }
+
+            .logo {
+                grid-column: 2;
+                order: 2;
+                font-size: 18px;
+                letter-spacing: 1px;
+                white-space: nowrap;
+            }
+
+            .nav-link-coll {
+                order: 1;
+                font-size: 13px !important;
+                padding: 6px 12px !important;
+            }
+
+            .nav-link-lux {
+                order: 3;
+                font-size: 13px !important;
+                padding: 6px 12px !important;
+            }
+
+            .nav-link-home {
+                order: 4;
+                font-size: 13px !important;
+                padding: 6px 12px !important;
+            }
+
+            .nav-link-cont {
+                order: 5;
+                font-size: 13px !important;
+                padding: 6px 12px !important;
+            }
+
+            .lang-selector {
+                order: 6;
+                padding: 2px !important;
+            }
+            
+            .lang-opt {
+                font-size: 11px !important;
+                padding: 4px 8px !important;
             }
 
             .hero h1 {
@@ -663,6 +705,10 @@
 
             .hero p {
                 font-size: 14px;
+            }
+
+            .hero-content {
+                padding-top: 60px;
             }
 
             .section-title {
@@ -711,10 +757,10 @@
     <header>
         <a href="#" class="logo">JAHA PERFUME'S</a>
         <nav>
-            <a href="#" class="translatable" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
-            <a href="#collection" class="translatable" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
-            <a href="luxury" class="translatable" data-tr="Lüks" data-ar="فاخر">Lüks</a>
-            <a href="#contact" class="translatable" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+            <a href="#" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+            <a href="luxury" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a>
+            <a href="#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
             <div class="lang-selector">
                 <span class="lang-opt" data-lang="tr">TR</span>
                 <span class="lang-opt" data-lang="ar">AR</span>
