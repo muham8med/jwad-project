@@ -78,16 +78,18 @@ body::before {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1005; /* Must be higher than header */
+    z-index: 1005;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     font-family: 'Poppins', sans-serif;
     text-transform: uppercase;
+    pointer-events: none;
 }
 
 .marquee-track {
     display: flex;
     width: max-content;
     animation: marquee 25s linear infinite;
+    animation-play-state: running !important;
 }
 
 .marquee-text {
@@ -96,7 +98,7 @@ body::before {
 }
 
 @keyframes marquee {
-    0% { transform: translate3d(0, 0, 0); }
+    0%   { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(-25%, 0, 0); }
 }
 
@@ -285,16 +287,18 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
         letter-spacing: 1px;
         white-space: nowrap;
     }
+    /* Mobil üst satır: [Koleksiyon] [LOGO] [Lüks] */
     .nav-link-coll {
-        order: 1;
+        order: 1; /* Logo'nun solunda */
         font-size: 13px !important;
         padding: 6px 12px !important;
     }
     .nav-link-lux {
-        order: 3;
+        order: 3; /* Logo'nun sağında */
         font-size: 13px !important;
         padding: 6px 12px !important;
     }
+    /* Mobil alt satır: Ana Sayfa | İletişim | TR/AR */
     .nav-link-home {
         order: 4;
         font-size: 13px !important;
