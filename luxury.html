@@ -64,9 +64,46 @@ body::before {
 @keyframes smokeRise { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 0.5; } 100% { transform: translateY(-120vh) scale(1.4); opacity: 0; } }
 
 /* ===============================
+   ANNOUNCEMENT BAR (MARQUEE)
+=============================== */
+.announcement-bar {
+    width: 100%;
+    background: linear-gradient(90deg, #8f6b10, #d4af37, #8f6b10);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 8px 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1005; /* Must be higher than header */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+}
+
+.marquee-text {
+    padding: 0 40px;
+    white-space: nowrap;
+}
+
+@keyframes marquee {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-25%, 0, 0); }
+}
+
+/* ===============================
    HEADER & LANGUAGE BUTTON
 =============================== */
-header { width: 100%; position: fixed; top: 0; left: 0; padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(212,175,55,0.15); z-index: 1000; }
+header { width: 100%; position: fixed; top: 32px; /* Shifted down to accommodate announcement bar */ left: 0; padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(212,175,55,0.15); z-index: 1000; }
 .logo { font-family: 'Cinzel', serif; color: var(--gold); font-size: 28px; text-decoration: none; letter-spacing: 3px; }
 nav { display: flex; gap: 30px; align-items: center; }
 nav a {
@@ -181,7 +218,7 @@ body[dir="rtl"] .floating-cart { right: auto; left: 25px; }
 /* ===============================
    LUXURY PAGE GENERAL & CARDS
 =============================== */
-.luxury-page-content { padding: 150px 50px 100px; text-align: center; min-height: 80vh; }
+.luxury-page-content { padding: 182px 50px 100px; text-align: center; min-height: 80vh; }
 .section-title { font-size: 42px; color: var(--gold); margin-bottom: 20px; font-family: 'Cinzel', serif; }
 .section-subtitle { color: #ddd; font-size: 16px; letter-spacing: 2px; margin-bottom: 80px; }
 
@@ -280,7 +317,7 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     body[dir="rtl"] .floating-cart { left: 18px; right: auto; }
     .section-title { font-size: 30px; }
     .category-title { font-size: 26px; }
-    .luxury-page-content { padding: 210px 20px 60px; }
+    .luxury-page-content { padding: 245px 20px 60px; }
     .card { width: 100%; max-width: 350px; } 
 }
 </style>
@@ -296,19 +333,28 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     <span></span><span></span><span></span>
 </div>
 
-<header>
-    <a href="./" class="logo">JAHA PERFUME'S</a>
-    <nav>
-        <a href="./" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
-        <a href="./#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
-        <a href="luxury" style="color: var(--gold);" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
-        <a href="./#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
-        <div class="lang-selector">
-            <span class="lang-opt" data-lang="tr">TR</span>
-            <span class="lang-opt" data-lang="ar">AR</span>
+    <div class="announcement-bar">
+        <div class="marquee-track">
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
         </div>
-    </nav>
-</header>
+    </div>
+
+    <header>
+        <a href="./" class="logo">JAHA PERFUME'S</a>
+        <nav>
+            <a href="./#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+            <a href="./" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="./#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+            <a href="luxury" style="color: var(--gold);" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
+            <div class="lang-selector">
+                <span class="lang-opt" data-lang="tr">TR</span>
+                <span class="lang-opt" data-lang="ar">AR</span>
+            </div>
+        </nav>
+    </header>
 
 <section class="luxury-page-content">
 
