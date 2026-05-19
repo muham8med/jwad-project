@@ -221,43 +221,46 @@
             left: 100%;
         }
 
-        .lang-btn {
-            background: rgba(212, 175, 55, 0.05);
+        .lang-selector {
+            display: inline-flex;
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            color: var(--gold);
-            padding: 8px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4px;
             border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            transition: all 0.4s ease;
         }
 
-        .lang-btn::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: all 0.5s ease;
+        .lang-selector:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+            transform: translateY(-2px);
         }
 
-        .lang-btn:hover {
+        .lang-opt {
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            user-select: none;
+        }
+
+        .lang-opt.active {
             background: var(--gold);
             color: var(--black);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
         }
 
-        .lang-btn:hover::before {
-            left: 100%;
+        .lang-opt:not(.active):hover {
+            color: var(--gold);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* ===============================
@@ -712,7 +715,10 @@
             <a href="#collection" class="translatable" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
             <a href="luxury" class="translatable" data-tr="Lüks" data-ar="فاخر">Lüks</a>
             <a href="#contact" class="translatable" data-tr="İletişim" data-ar="اتصال">İletişim</a>
-            <button id="langBtn" class="lang-btn">AR</button>
+            <div class="lang-selector">
+                <span class="lang-opt" data-lang="tr">TR</span>
+                <span class="lang-opt" data-lang="ar">AR</span>
+            </div>
         </nav>
     </header>
 
@@ -810,8 +816,6 @@
 
     <script>
         // --- 1. GLOBAL DEĞİŞKENLER ---
-        let currentLang = 'tr';
-        const langBtn = document.getElementById('langBtn');
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const searchMessage = document.getElementById('searchMessage');
@@ -819,25 +823,28 @@
         const cartCounter = document.querySelector('.cart-count');
         const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
 
-        // --- 2. DİL DEĞİŞTİRME (LANGUAGE TOGGLE) ---
-        function updatePlaceholder() {
-            const placeholders = document.querySelectorAll('.translatable-placeholder');
-            placeholders.forEach(el => {
-                el.placeholder = currentLang === 'ar'
-                    ? el.getAttribute('data-ar-placeholder')
-                    : el.getAttribute('data-tr-placeholder');
+        // --- 2. DİL (LANGUAGE) SİSTEMİ VE KALICILIK ---
+        let currentLang = localStorage.getItem('jahaLang') || 'tr';
+        const langOpts = document.querySelectorAll('.lang-opt');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('jahaLang', currentLang);
+
+            // Aktif sınıfını güncelle
+            langOpts.forEach(opt => {
+                if (opt.getAttribute('data-lang') === currentLang) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
             });
-        }
 
-        langBtn.addEventListener('click', () => {
-            currentLang = currentLang === 'tr' ? 'ar' : 'tr';
-            langBtn.textContent = currentLang === 'tr' ? 'AR' : 'TR';
-
-            // Sağdan sola / Soldan sağa
+            // Yön (RTL/LTR) Ayarı
             document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             document.documentElement.lang = currentLang;
 
-            // Metinleri Çevir
+            // Metinlerin Çevrilmesi
             const elements = document.querySelectorAll('.translatable');
             elements.forEach(el => {
                 el.innerText = el.getAttribute(`data-${currentLang}`);
@@ -847,11 +854,30 @@
             updatePlaceholder();
 
             // Eğer arama mesajı ekranda duruyorsa onu da temizle/güncelle
-            searchMessage.innerText = "";
+            if (searchMessage) searchMessage.innerText = "";
+        }
+
+        function updatePlaceholder() {
+            const placeholders = document.querySelectorAll('.translatable-placeholder');
+            placeholders.forEach(el => {
+                el.placeholder = currentLang === 'ar'
+                    ? el.getAttribute('data-ar-placeholder')
+                    : el.getAttribute('data-tr-placeholder');
+            });
+        }
+
+        // Tıklama olayları
+        langOpts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const selectedLang = opt.getAttribute('data-lang');
+                if (selectedLang !== currentLang) {
+                    setLanguage(selectedLang);
+                }
+            });
         });
 
-        // Başlangıçta placeholder ayarla
-        updatePlaceholder();
+        // Sayfa ilk yüklendiğinde dil ayarını çalıştır
+        setLanguage(currentLang);
 
         // --- 3. ARAMA SİSTEMİ (SEARCH SYSTEM) ---
         const perfumes = [
