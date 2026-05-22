@@ -758,6 +758,89 @@
             box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5);
         }
 
+        /* INFINITE MARQUEE STYLE */
+        .marquee-container {
+            direction: ltr !important;
+            width: 100%;
+            overflow: hidden;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 20px 0;
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 30px;
+            width: max-content;
+            animation: infiniteScroll 30s linear infinite;
+        }
+
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused; /* Pause on hover for easier clicking */
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            padding: 10px 20px;
+            min-width: 250px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .marquee-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .marquee-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            background: #111;
+            border-radius: 8px;
+            margin-right: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .marquee-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .marquee-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .marquee-price {
+            font-size: 12px;
+            color: var(--gold);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        @keyframes infiniteScroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
         /* ===============================
    CONTACT SECTION
 =============================== */
@@ -972,6 +1055,84 @@
                 data-ar="اكتشف المجموعة"> Koleksiyonu Keşfet </button>
         </div>
     </section>
+
+    <!-- INFINITE SCROLLING COLLECTION MARQUEE -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <!-- Set 1 -->
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA TITAN" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA STORM" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <!-- Set 2 (Duplicate for infinite seamless loop) -->
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA TITAN" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+            <div class="marquee-item" onclick="window.location.href='luxury.html'">
+                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA STORM" class="marquee-img">
+                <div class="marquee-info">
+                    <span class="marquee-name translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</span>
+                    <span class="marquee-price">1200 ₺</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="search-section">
         <h2 class="search-title translatable" data-tr="Parfüm Ara" data-ar="ابحث عن عطر">
