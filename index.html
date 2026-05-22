@@ -783,18 +783,20 @@
             align-items: center;
             justify-content: center;
             gap: 30px;
-            opacity: 0;
-            transform: scale(0.85);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateX(100%);
+            transition: transform 0.5s ease;
             pointer-events: none;
             padding: 20px;
         }
 
         .slider-slide.active {
-            opacity: 1;
-            transform: scale(1);
+            transform: translateX(0);
             pointer-events: auto;
             position: relative;
+        }
+
+        .slider-slide.exit-left {
+            transform: translateX(-100%);
         }
 
         .slider-slide .slider-img-wrap {
@@ -1340,13 +1342,21 @@
             let intervalId;
 
             function goToSlide(idx) {
-                slides.forEach((s, i) => {
-                    s.classList.toggle('active', i === idx);
-                });
+                const prevIdx = currentIdx;
+                if (idx === prevIdx) return;
+                const prevSlide = slides[prevIdx];
+                const nextSlide = slides[idx];
+                prevSlide.classList.remove('active');
+                prevSlide.classList.add('exit-left');
+                nextSlide.classList.remove('exit-left');
+                nextSlide.classList.add('active');
                 dots.forEach((d, i) => {
                     d.classList.toggle('active', i === idx);
                 });
                 currentIdx = idx;
+                setTimeout(() => {
+                    prevSlide.classList.remove('exit-left');
+                }, 500);
             }
 
             function nextSlide() {
@@ -1361,8 +1371,9 @@
             dots.forEach(dot => {
                 dot.addEventListener('click', function () {
                     const idx = parseInt(this.getAttribute('data-idx'));
-                    goToSlide(idx);
+                    if (idx === currentIdx) return;
                     clearInterval(intervalId);
+                    goToSlide(idx);
                     startSlider();
                 });
             });
