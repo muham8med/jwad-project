@@ -375,6 +375,35 @@ body[dir="rtl"] .floating-cart { right: auto; left: 25px; }
 .card:hover .add-to-cart-btn { box-shadow: 0 0 15px rgba(212,175,55,0.4); }
 .add-to-cart-btn:hover { background: transparent; color: var(--gold); }
 
+/* FREE SHIPPING BADGE STYLE */
+.free-shipping-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #d4af37, #8f6b10);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    z-index: 10;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+body[dir="rtl"] .free-shipping-badge {
+    left: auto;
+    right: 15px;
+}
+
+.card:hover .free-shipping-badge {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5);
+}
+
 .card-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 30px; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 1px; transition: 0.3s ease; position: relative; z-index: 10; }
 .card:hover .card-btn { background: var(--gold); color: #000; box-shadow: 0 0 15px rgba(212,175,55,0.4); }
 
@@ -494,13 +523,14 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
         <h2 class="category-title translatable" data-tr="Erkek Koleksiyonu" data-ar="المجموعة الرجالية">Erkek Koleksiyonu</h2>
         <div class="cards">
             <div class="card">
+                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
                 <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
-                <h3 class="translatable" data-tr="ÖZEL JAHA İNDİRİMİ" data-ar="خصم جاها الخاص">ÖZEL JAHA İNDİRİMİ</h3>
+                <h3 class="translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</h3>
                 <p class="translatable" data-tr="Odunsu notalar ve karabiberin maskülen ve keskin birleşimi." data-ar="مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.">Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.</p>
                 <div class="price-box">
                     <span class="discount">-33%</span>
-                    <span class="old-price">₺1.500</span>
-                    <span class="new-price">₺1.000</span>
+                    <span class="old-price">₺1.800</span>
+                    <span class="new-price">₺1.200</span>
                 </div>
                 <div class="action-buttons">
                     <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
@@ -514,13 +544,14 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
         <h2 class="category-title translatable" data-tr="En Çok Sevilen Koleksiyonu" data-ar="المجموعة الأكثر شهرة">En Çok Sevilen Koleksiyonu</h2>
         <div class="cards">
             <div class="card">
+                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
                 <img src="perfume project/JAHA Bottle 1.jpeg" alt="Zarif Şişe" class="bottle-img">
-                <h3 class="translatable" data-tr="Velvet Rose" data-ar="فيلفيت روز">Velvet Rose</h3>
+                <h3 class="translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</h3>
                 <p class="translatable" data-tr="İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti." data-ar="الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.">İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.</p>
                 <div class="price-box">
                     <span class="discount">-33%</span>
-                    <span class="old-price">₺1.500</span>
-                    <span class="new-price">₺1.000</span>
+                    <span class="old-price">₺1.800</span>
+                    <span class="new-price">₺1.200</span>
                 </div>
                 <div class="action-buttons">
                     <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
@@ -529,13 +560,14 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
             </div>
 
             <div class="card">
+                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
                 <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
-                <h3 class="translatable" data-tr="Golden Aura" data-ar="الهالة الذهبية">Golden Aura</h3>
+                <h3 class="translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</h3>
                 <p class="translatable" data-tr="Güneşin sıcaklığını hissettiren amber ve vanilya notaları." data-ar="ملاحظات العنبر والفانيليا التي تجعلك تشعر بدفء الشمس.">Güneşin sıcaklığını hissettiren amber ve vanilya notaları.</p>
                 <div class="price-box">
-                    <span class="discount">-50%</span>
+                    <span class="discount">-40%</span>
                     <span class="old-price">₺2.000</span>
-                    <span class="new-price">₺1.000</span>
+                    <span class="new-price">₺1.200</span>
                 </div>
                 <div class="action-buttons">
                     <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
@@ -549,13 +581,14 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
         <h2 class="category-title translatable" data-tr="Özel Seri" data-ar="السلسلة الخاصة">Özel Seri</h2>
         <div class="cards">
             <div class="card">
+                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
                 <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
-                <h3 class="translatable" data-tr="Royal Oud" data-ar="العود الملكي">Royal Oud</h3>
+                <h3 class="translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</h3>
                 <p class="translatable" data-tr="Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu." data-ar="اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.">Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.</p>
                 <div class="price-box">
-                    <span class="discount">-66%</span>
-                    <span class="old-price">₺3.000</span>
-                    <span class="new-price">₺1.000</span>
+                    <span class="discount">-50%</span>
+                    <span class="old-price">₺2.400</span>
+                    <span class="new-price">₺1.200</span>
                 </div>
                 <div class="action-buttons">
                     <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
@@ -564,13 +597,14 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
             </div>
 
             <div class="card">
+                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
                 <img src="perfume project/JAHA Bottle 1.jpeg" alt="Siyah Şişe" class="bottle-img">
-                <h3 class="translatable" data-tr="Midnight Elixir" data-ar="إكسير منتصف الليل">Midnight Elixir</h3>
+                <h3 class="translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</h3>
                 <p class="translatable" data-tr="Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı." data-ar="رقصة التوابل الغامضة والأوركيد الأسود في عمق الليل.">Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı.</p>
                 <div class="price-box">
-                    <span class="discount">-60%</span>
-                    <span class="old-price">₺2.500</span>
-                    <span class="new-price">₺1.000</span>
+                    <span class="discount">-40%</span>
+                    <span class="old-price">₺2.000</span>
+                    <span class="new-price">₺1.200</span>
                 </div>
                 <div class="action-buttons">
                     <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
@@ -708,76 +742,76 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     const globalPerfumes = [
         // Home Page Products
         {
-            nameTr: "Golden Oud",
-            nameAr: "العود الذهبي",
-            descTr: "Yoğun oud, amber ve sıcak vanilya notaları ile güçlü ve lüks bir his bırakır.",
-            descAr: "يترك شعوراً قوياً وفاخراً مع نفحات العود المكثفة والعنبر والفانيليا الدافئة.",
+            nameTr: "JAHA GENTLEMAN",
+            nameAr: "JAHA GENTLEMAN",
+            descTr: "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
+            descAr: "مزيج ذكوري وحad من الملاحظات الخشبية والفلفل الأسود.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "1000 ₺",
+            price: "1200 ₺",
             page: "index.html#collection"
         },
         {
-            nameTr: "Black Royal",
-            nameAr: "رويال بلاك",
-            descTr: "Siyah misk, baharatlı dokular ve gizemli odunsu esansların birleşimi.",
-            descAr: "مزيج من المسك الأسود، والقوام الحار، والخلاصات الخشبية الغامضة.",
+            nameTr: "JAHA ROSE",
+            nameAr: "JAHA ROSE  نسائي",
+            descTr: "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
+            descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "1000 ₺",
+            price: "1200 ₺",
             page: "index.html#collection"
         },
         {
-            nameTr: "Night Velvet",
-            nameAr: "مخمل الليل",
-            descTr: "Modern altın dokunuşlarıyla premium gece kokusunu yeniden tanımlar.",
-            descAr: "يعيد تعريف عطر الليل الفاخر بلمسات ذهبية حديثة.",
+            nameTr: "JAHA Al HAYBA",
+            nameAr: "JAHA Al HAYBA",
+            descTr: "Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.",
+            descAr: "اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "1000 ₺",
+            price: "1200 ₺",
             page: "index.html#collection"
         },
         // Luxury Page Products
         {
-            nameTr: "ÖZEL JAHA İNDİRİMİ",
-            nameAr: "خصم جاها الخاص",
+            nameTr: "JAHA GENTLEMAN",
+            nameAr: "JAHA GENTLEMAN",
             descTr: "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
             descAr: "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "₺1.000",
+            price: "₺1.200",
             page: "luxury.html"
         },
         {
-            nameTr: "Velvet Rose",
-            nameAr: "فيلفيت روز",
+            nameTr: "JAHA ROSE",
+            nameAr: "JAHA ROSE  نسائي",
             descTr: "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
             descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "₺1.000",
+            price: "₺1.200",
             page: "luxury.html"
         },
         {
-            nameTr: "Golden Aura",
-            nameAr: "الهالة الذهبية",
+            nameTr: "JAHA TITAN",
+            nameAr: "JAHA TITAN",
             descTr: "Güneşin sıcaklığını hissettiren amber ve vanilya notaları.",
             descAr: "ملاحظات العنبر والفانيليا التي تجعلك تشعر بدفء الشمس.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "₺1.000",
+            price: "₺1.200",
             page: "luxury.html"
         },
         {
-            nameTr: "Royal Oud",
-            nameAr: "العود الملكي",
+            nameTr: "JAHA Al HAYBA",
+            nameAr: "JAHA Al HAYBA",
             descTr: "Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.",
             descAr: "اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "₺1.000",
+            price: "₺1.200",
             page: "luxury.html"
         },
         {
-            nameTr: "Midnight Elixir",
-            nameAr: "إكسير منتصف الليل",
+            nameTr: "JAHA STORM",
+            nameAr: "JAHA STORM",
             descTr: "Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı.",
             descAr: "رقصة التوابل الغامضة والأوركيد الأسود في عمق الليل.",
             img: "perfume project/JAHA Bottle 1.jpeg",
-            price: "₺1.000",
+            price: "₺1.200",
             page: "luxury.html"
         }
     ];
