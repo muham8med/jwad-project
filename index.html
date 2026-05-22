@@ -758,86 +758,151 @@
             box-shadow: 0 6px 15px rgba(212, 175, 55, 0.5);
         }
 
-        /* INFINITE MARQUEE STYLE */
-        .marquee-container {
-            direction: ltr !important;
+        /* PRODUCT SLIDER STYLES */
+        .slider-section {
             width: 100%;
-            overflow: hidden;
-            background: #0a0a0a;
-            border-top: 1px solid rgba(212, 175, 55, 0.15);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            padding: 20px 0;
+            padding: 30px 20px;
+            margin: 20px 0 10px;
             position: relative;
-            margin: 40px 0;
+            overflow: hidden;
         }
 
-        .marquee-content {
-            display: flex;
-            gap: 30px;
-            width: max-content;
-            animation: infiniteScroll 30s linear infinite;
+        .slider-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 320px;
         }
 
-        .marquee-container:hover .marquee-content {
-            animation-play-state: paused; /* Pause on hover for easier clicking */
-        }
-
-        .marquee-item {
+        .slider-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            border-radius: 12px;
-            padding: 10px 20px;
-            min-width: 250px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            user-select: none;
+            justify-content: center;
+            gap: 30px;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
+            padding: 20px;
         }
 
-        .marquee-item:hover {
-            transform: translateY(-3px);
-            border-color: var(--gold);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
-            background: rgba(212, 175, 55, 0.05);
+        .slider-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            position: relative;
         }
 
-        .marquee-img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            background: #111;
-            border-radius: 8px;
-            margin-right: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .marquee-info {
+        .slider-slide .slider-img-wrap {
+            flex-shrink: 0;
+            width: 160px;
+            height: 200px;
             display: flex;
-            flex-direction: column;
-            text-align: left;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 15px;
+            transition: border-color 0.4s;
         }
 
-        .marquee-name {
-            font-size: 13px;
+        .slider-slide.active .slider-img-wrap {
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.08);
+        }
+
+        .slider-slide .slider-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(212, 175, 55, 0.2));
+        }
+
+        .slider-slide .slider-info {
+            flex: 1;
+            text-align: left;
+            min-width: 0;
+        }
+
+        body[dir="rtl"] .slider-slide .slider-info {
+            text-align: right;
+        }
+
+        .slider-slide .slider-name {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .slider-slide .slider-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .slider-slide .slider-price {
+            font-size: 22px;
             font-weight: 600;
             color: #fff;
-            letter-spacing: 0.5px;
         }
 
-        .marquee-price {
-            font-size: 12px;
+        .slider-slide .slider-price span {
             color: var(--gold);
-            margin-top: 2px;
-            font-weight: 500;
         }
 
-        @keyframes infiniteScroll {
-            0% {
-                transform: translateX(0);
+        /* Slider dots */
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 230px;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 600px) {
+            .slider-slide {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
             }
-            100% {
-                transform: translateX(-50%);
+            .slider-slide .slider-info {
+                text-align: center;
+            }
+            .slider-slide .slider-img-wrap {
+                width: 130px;
+                height: 160px;
+            }
+            .slider-slide .slider-name {
+                font-size: 20px;
+            }
+            .slider-dots {
+                margin-top: 370px;
+            }
+            .slider-container {
+                min-height: 380px;
             }
         }
 
@@ -1056,81 +1121,66 @@
         </div>
     </section>
 
-    <!-- INFINITE SCROLLING COLLECTION MARQUEE -->
-    <div class="marquee-container">
-        <div class="marquee-content">
-            <!-- Set 1 -->
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</span>
-                    <span class="marquee-price">1200 ₺</span>
+    <!-- PRODUCT SLIDER -->
+    <div class="slider-section">
+        <div class="slider-container" id="productSlider">
+            <div class="slider-slide active" data-idx="0">
+                <div class="slider-img-wrap">
+                    <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN" class="slider-img">
+                </div>
+                <div class="slider-info">
+                    <div class="slider-name translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</div>
+                    <div class="slider-desc translatable" data-tr="Odunsu notalar ve karabiberin maskülen ve keskin birleşimi." data-ar="مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.">Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.</div>
+                    <div class="slider-price"><span>1200</span> ₺</div>
                 </div>
             </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</span>
-                    <span class="marquee-price">1200 ₺</span>
+            <div class="slider-slide" data-idx="1">
+                <div class="slider-img-wrap">
+                    <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE" class="slider-img">
+                </div>
+                <div class="slider-info">
+                    <div class="slider-name translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE نسائي">JAHA ROSE</div>
+                    <div class="slider-desc translatable" data-tr="İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti." data-ar="الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.">İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.</div>
+                    <div class="slider-price"><span>1200</span> ₺</div>
                 </div>
             </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA TITAN" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</span>
-                    <span class="marquee-price">1200 ₺</span>
+            <div class="slider-slide" data-idx="2">
+                <div class="slider-img-wrap">
+                    <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA TITAN" class="slider-img">
+                </div>
+                <div class="slider-info">
+                    <div class="slider-name translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</div>
+                    <div class="slider-desc translatable" data-tr="Güçlü ve kalıcı etkisiyle modern erkeğin tercihi." data-ar="خيار الرجل العصري بتأثيره القوي والطويل الأمد.">Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.</div>
+                    <div class="slider-price"><span>1200</span> ₺</div>
                 </div>
             </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</span>
-                    <span class="marquee-price">1200 ₺</span>
+            <div class="slider-slide" data-idx="3">
+                <div class="slider-img-wrap">
+                    <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA" class="slider-img">
+                </div>
+                <div class="slider-info">
+                    <div class="slider-name translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</div>
+                    <div class="slider-desc translatable" data-tr="Doğu'nun gizemli esanslarıyla büyüleyici bir deneyim." data-ar="تجربة ساحرة مع خلاصات الشرق الغامضة.">Doğu'nun gizemli esanslarıyla büyüleyici bir deneyim.</div>
+                    <div class="slider-price"><span>1200</span> ₺</div>
                 </div>
             </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA STORM" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</span>
-                    <span class="marquee-price">1200 ₺</span>
+            <div class="slider-slide" data-idx="4">
+                <div class="slider-img-wrap">
+                    <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA STORM" class="slider-img">
+                </div>
+                <div class="slider-info">
+                    <div class="slider-name translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</div>
+                    <div class="slider-desc translatable" data-tr="Taze ve dinamik notalarla enerjinizi yükseltin." data-ar="ارفع طاقتك بنفحات منعشة وديناميكية.">Taze ve dinamik notalarla enerjinizi yükseltin.</div>
+                    <div class="slider-price"><span>1200</span> ₺</div>
                 </div>
             </div>
-            <!-- Set 2 (Duplicate for infinite seamless loop) -->
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</span>
-                    <span class="marquee-price">1200 ₺</span>
-                </div>
-            </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</span>
-                    <span class="marquee-price">1200 ₺</span>
-                </div>
-            </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA TITAN" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA TITAN" data-ar="JAHA TITAN">JAHA TITAN</span>
-                    <span class="marquee-price">1200 ₺</span>
-                </div>
-            </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</span>
-                    <span class="marquee-price">1200 ₺</span>
-                </div>
-            </div>
-            <div class="marquee-item" onclick="window.location.href='luxury.html'">
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA STORM" class="marquee-img">
-                <div class="marquee-info">
-                    <span class="marquee-name translatable" data-tr="JAHA STORM" data-ar="JAHA STORM">JAHA STORM</span>
-                    <span class="marquee-price">1200 ₺</span>
-                </div>
-            </div>
+        </div>
+        <div class="slider-dots" id="sliderDots">
+            <span class="slider-dot active" data-idx="0"></span>
+            <span class="slider-dot" data-idx="1"></span>
+            <span class="slider-dot" data-idx="2"></span>
+            <span class="slider-dot" data-idx="3"></span>
+            <span class="slider-dot" data-idx="4"></span>
         </div>
     </div>
 
@@ -1279,7 +1329,55 @@
         // Sayfa ilk yüklendiğinde dil ayarını çalıştır
         setLanguage(currentLang);
 
-        // --- 3. GLOBAL ARAMA SİSTEMİ VE VERİ TABANI ---
+        // --- 3. SLIDER SİSTEMİ ---
+        (function initSlider() {
+            const container = document.getElementById('productSlider');
+            if (!container) return;
+            const slides = container.querySelectorAll('.slider-slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            if (!slides.length) return;
+            let currentIdx = 0;
+            let intervalId;
+
+            function goToSlide(idx) {
+                slides.forEach((s, i) => {
+                    s.classList.toggle('active', i === idx);
+                });
+                dots.forEach((d, i) => {
+                    d.classList.toggle('active', i === idx);
+                });
+                currentIdx = idx;
+            }
+
+            function nextSlide() {
+                goToSlide((currentIdx + 1) % slides.length);
+            }
+
+            function startSlider() {
+                if (intervalId) clearInterval(intervalId);
+                intervalId = setInterval(nextSlide, 2000);
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', function () {
+                    const idx = parseInt(this.getAttribute('data-idx'));
+                    goToSlide(idx);
+                    clearInterval(intervalId);
+                    startSlider();
+                });
+            });
+
+            // Slider'a tıklanınca luxury sayfasına git
+            slides.forEach(slide => {
+                slide.addEventListener('click', function () {
+                    window.location.href = 'luxury.html';
+                });
+            });
+
+            startSlider();
+        })();
+
+        // --- 4. GLOBAL ARAMA SİSTEMİ VE VERİ TABANI ---
         const globalPerfumes = [
             // Home Page Products
             {
@@ -1445,7 +1543,7 @@
             }
         });
 
-        // --- 3.1. OTOMATİK TAMAMLAMA / CANLI ARAMA (AUTOCOMPLETE) ---
+        // --- 4.1. OTOMATİK TAMAMLAMA / CANLI ARAMA (AUTOCOMPLETE) ---
         const suggestionsBox = document.createElement('div');
         suggestionsBox.id = 'searchSuggestions';
         suggestionsBox.className = 'search-suggestions';
@@ -1553,7 +1651,7 @@
             }
         });
 
-        // --- 3.2. URL'DEN GELEN ARAMA PARAMETRESİNİ KONTROL ET ---
+        // --- 4.2. URL'DEN GELEN ARAMA PARAMETRESİNİ KONTROL ET ---
         function checkUrlSearchParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const searchVal = urlParams.get('search');
@@ -1570,7 +1668,7 @@
         }
         checkUrlSearchParam();
 
-        // --- 4. SEPET SİSTEMİ (CART SYSTEM) ---
+        // --- 5. SEPET SİSTEMİ (CART SYSTEM) ---
         let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
 
         function updateCartCount() {
