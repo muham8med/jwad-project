@@ -764,6 +764,7 @@
             padding: 5px 16px;
             margin: 0;
             position: relative;
+            perspective: 1200px;
         }
 
         .slider-container {
@@ -782,16 +783,18 @@
             align-items: center;
             justify-content: center;
             gap: 24px;
+            transform: rotateY(90deg);
             opacity: 0;
-            transform: translateY(12px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
             pointer-events: none;
             padding: 16px 12px;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
         }
 
         .slider-slide.active {
+            transform: rotateY(0deg);
             opacity: 1;
-            transform: translateY(0);
             pointer-events: auto;
             position: relative;
         }
