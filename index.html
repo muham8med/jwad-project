@@ -1234,90 +1234,7 @@
             });
         });
 
-        // Sayfa ilk yüklendiğinde dil ayarını çalıştır
-        setLanguage(currentLang);
-
-        // Ürün kartlarını yükle (dinamik)
-        renderProductCards();
-
-        // --- 3. SLIDER SİSTEMİ (dinamik) ---
-        (function initSlider() {
-            const container = document.getElementById('productSlider');
-            const dotsContainer = document.getElementById('sliderDots');
-            if (!container) return;
-
-            const products = getProducts();
-            if (!products.length) {
-                container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px">Henüz ürün yok.</p>';
-                return;
-            }
-
-            let slidesHtml = '';
-            let dotsHtml = '';
-            products.forEach((p, i) => {
-                const active = i === 0 ? ' active' : '';
-                slidesHtml += `<div class="slider-slide${active}" data-idx="${i}">
-                    <div class="slider-img-wrap">
-                        <img src="${p.image}" alt="${p.nameTr}" class="slider-img">
-                    </div>
-                    <div class="slider-info">
-                        <div class="slider-name translatable" data-tr="${p.nameTr}" data-ar="${p.nameAr || p.nameTr}">${p.nameTr}</div>
-                        <div class="slider-desc translatable" data-tr="${p.descTr || ''}" data-ar="${p.descAr || ''}">${p.descTr || ''}</div>
-                        <div class="slider-price"><span>${p.price}</span> ₺</div>
-                    </div>
-                </div>`;
-                dotsHtml += `<span class="slider-dot${active}" data-idx="${i}"></span>`;
-            });
-            container.innerHTML = slidesHtml;
-            dotsContainer.innerHTML = dotsHtml;
-            // Yeni eklenen slider elementlerine çeviriyi uygula
-            document.querySelectorAll('#productSlider .translatable').forEach(el => {
-                const tr = el.getAttribute('data-tr');
-                const ar = el.getAttribute('data-ar');
-                if (tr && ar) el.innerText = currentLang === 'ar' ? ar : tr;
-            });
-
-            const slides = container.querySelectorAll('.slider-slide');
-            const dots = dotsContainer.querySelectorAll('.slider-dot');
-            let currentIdx = 0;
-            let intervalId;
-
-            function goToSlide(idx) {
-                if (idx === currentIdx) return;
-                slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-                currentIdx = idx;
-            }
-
-            function nextSlide() {
-                goToSlide((currentIdx + 1) % slides.length);
-            }
-
-            function startSlider() {
-                if (intervalId) clearInterval(intervalId);
-                intervalId = setInterval(nextSlide, 2000);
-            }
-
-            dots.forEach(dot => {
-                dot.addEventListener('click', function () {
-                    const idx = parseInt(this.getAttribute('data-idx'));
-                    if (idx === currentIdx) return;
-                    clearInterval(intervalId);
-                    goToSlide(idx);
-                    startSlider();
-                });
-            });
-
-            slides.forEach(slide => {
-                slide.addEventListener('click', function () {
-                    window.location.href = 'luxury.html';
-                });
-            });
-
-            startSlider();
-        })();
-
-        // --- 4. ÜRÜN SİSTEMİ (PRODUCT SYSTEM) ---
+        // --- 3. ÜRÜN SİSTEMİ (PRODUCT SYSTEM) ---
         const STORAGE_PRODUCTS = 'jahaAdminProducts';
 
         function getProducts() {
@@ -1373,6 +1290,88 @@
             productCountEl.textContent = 'Toplam ' + homeProducts.length + ' ürün';
             attachAddToCart();
         }
+
+        // Sayfa ilk yüklendiğinde dil ayarını çalıştır
+        setLanguage(currentLang);
+
+        // Ürün kartlarını yükle (dinamik)
+        renderProductCards();
+
+        // --- 4. SLIDER SİSTEMİ (dinamik) ---
+        (function initSlider() {
+            const container = document.getElementById('productSlider');
+            const dotsContainer = document.getElementById('sliderDots');
+            if (!container) return;
+
+            const products = getProducts();
+            if (!products.length) {
+                container.innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px">Henüz ürün yok.</p>';
+                return;
+            }
+
+            let slidesHtml = '';
+            let dotsHtml = '';
+            products.forEach((p, i) => {
+                const active = i === 0 ? ' active' : '';
+                slidesHtml += `<div class="slider-slide${active}" data-idx="${i}">
+                    <div class="slider-img-wrap">
+                        <img src="${p.image}" alt="${p.nameTr}" class="slider-img">
+                    </div>
+                    <div class="slider-info">
+                        <div class="slider-name translatable" data-tr="${p.nameTr}" data-ar="${p.nameAr || p.nameTr}">${p.nameTr}</div>
+                        <div class="slider-desc translatable" data-tr="${p.descTr || ''}" data-ar="${p.descAr || ''}">${p.descTr || ''}</div>
+                        <div class="slider-price"><span>${p.price}</span> ₺</div>
+                    </div>
+                </div>`;
+                dotsHtml += `<span class="slider-dot${active}" data-idx="${i}"></span>`;
+            });
+            container.innerHTML = slidesHtml;
+            dotsContainer.innerHTML = dotsHtml;
+            document.querySelectorAll('#productSlider .translatable').forEach(el => {
+                const tr = el.getAttribute('data-tr');
+                const ar = el.getAttribute('data-ar');
+                if (tr && ar) el.innerText = currentLang === 'ar' ? ar : tr;
+            });
+
+            const slides = container.querySelectorAll('.slider-slide');
+            const dots = dotsContainer.querySelectorAll('.slider-dot');
+            let currentIdx = 0;
+            let intervalId;
+
+            function goToSlide(idx) {
+                if (idx === currentIdx) return;
+                slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                currentIdx = idx;
+            }
+
+            function nextSlide() {
+                goToSlide((currentIdx + 1) % slides.length);
+            }
+
+            function startSlider() {
+                if (intervalId) clearInterval(intervalId);
+                intervalId = setInterval(nextSlide, 2000);
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', function () {
+                    const idx = parseInt(this.getAttribute('data-idx'));
+                    if (idx === currentIdx) return;
+                    clearInterval(intervalId);
+                    goToSlide(idx);
+                    startSlider();
+                });
+            });
+
+            slides.forEach(slide => {
+                slide.addEventListener('click', function () {
+                    window.location.href = 'luxury.html';
+                });
+            });
+
+            startSlider();
+        })();
 
         function attachAddToCart() {
             document.querySelectorAll('.add-to-cart-btn:not(.disabled-btn)').forEach(btn => {
