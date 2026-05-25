@@ -360,11 +360,9 @@ tr:hover td { background: rgba(212,175,55,0.03); }
         <a href="#" onclick="showPage('orders',this)">📋 Siparişler</a>
         <a href="index.html" style="margin-top:20px;border-left-color:var(--gold);color:var(--gold);">← Siteye Dön</a>
         <div class="token-input-wrap">
-            <label>GitHub Token</label>
-            <input type="password" id="githubToken" placeholder="github_pat_..." />
-            <button onclick="saveGitHubToken()">Token'ı Kaydet</button>
-            <span id="tokenStatus" class="token-status" style="color:var(--green)">✓ Kaydedildi</span>
-            <span id="tokenSyncStatus" class="token-status" style="color:var(--gold)"></span>
+            <button onclick="exportToGithub()" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--gold);background:var(--gold);color:#000;font-weight:600;font-size:13px;cursor:pointer">📤 GitHub'a Aktar</button>
+            <span id="exportStatus" style="font-size:11px;color:var(--green);display:block;margin-top:6px"></span>
+            <textarea id="exportJsonArea" style="display:none;width:100%;height:100px;margin-top:8px;padding:8px;border-radius:6px;border:1px solid rgba(212,175,55,0.2);background:#111;color:white;font-size:11px;font-family:monospace" readonly></textarea>
         </div>
         <button class="logout-btn" onclick="adminLogout()">Çıkış Yap</button>
     </nav>
@@ -494,65 +492,23 @@ function defaultProducts() {
     ];
 }
 
-// --- GITHUB SYNC ---
-const GITHUB_OWNER = 'muham8med';
-const GITHUB_REPO = 'jwad-project';
-const GITHUB_PATH = 'products.json';
-const GITHUB_RAW = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_PATH}`;
-const GITHUB_API_GET = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=main`;
-const GITHUB_API_PUT = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+// --- GITHUB SYNC (manual) ---
+const GITHUB_RAW = 'https://raw.githubusercontent.com/muham8med/jwad-project/main/products.json';
+const GITHUB_EDIT_URL = 'https://github.com/muham8med/jwad-project/edit/main/products.json';
 
-function getGitHubToken() {
-    return localStorage.getItem('jahaGitToken') || '';
-}
-
-function saveGitHubToken() {
-    const token = document.getElementById('githubToken').value.trim();
-    if (!token) { alert('Token girin'); return; }
-    localStorage.setItem('jahaGitToken', token);
-    document.getElementById('tokenStatus').style.display = 'inline';
-    setTimeout(() => document.getElementById('tokenStatus').style.display = 'none', 2000);
-}
-
-function showSyncStatus(msg, isError) {
-    const el = document.getElementById('tokenSyncStatus');
-    el.style.display = 'inline';
-    el.style.color = isError ? 'var(--red)' : 'var(--gold)';
-    el.textContent = msg;
-    if (!isError) setTimeout(() => el.style.display = 'none', 3000);
-}
-
-async function getFileSha(token) {
-    const res = await fetch(GITHUB_API_GET, { headers: { Authorization: 'Bearer ' + token } });
-    if (!res.ok) throw new Error('SHA alınamadı: ' + res.status);
-    const data = await res.json();
-    return data.sha;
-}
-
-async function pushToGithub(products) {
-    const token = getGitHubToken();
-    if (!token) { showSyncStatus('Token gerekli!', true); return; }
-    showSyncStatus('GitHub\'a kaydediliyor...', false);
-    try {
-        const sha = await getFileSha(token);
-        const content = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
-        const res = await fetch(GITHUB_API_PUT, {
-            method: 'PUT',
-            headers: {
-                Authorization: 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: 'Admin panelden ürün güncelleme',
-                content: content,
-                sha: sha
-            })
-        });
-        if (!res.ok) throw new Error('Push hatası: ' + res.status);
-        showSyncStatus('✓ GitHub senkronize edildi', false);
-    } catch (e) {
-        showSyncStatus('✗ Hata: ' + e.message, true);
-    }
+function exportToGithub() {
+    const products = getProducts();
+    const json = JSON.stringify(products, null, 2);
+    // Kullanıcının panoya kopyalaması için textarea'ya koy
+    const el = document.getElementById('exportJsonArea');
+    el.value = json;
+    el.style.display = 'block';
+    el.select();
+    document.execCommand('copy');
+    document.getElementById('exportStatus').textContent = '✓ Kopyalandı! Şimdi GitHub'da yapıştırın.';
+    document.getElementById('exportStatus').style.color = 'var(--green)';
+    // GitHub edit sayfasını aç
+    window.open(GITHUB_EDIT_URL, '_blank');
 }
 
 async function pullFromGithub() {
@@ -652,7 +608,6 @@ function saveProduct() {
         products.push({ id: newId, nameTr, nameAr, descTr, descAr, price, stock, image, page, category });
     }
     saveProductsToStore(products);
-    pushToGithub(products);
     cancelEdit();
     renderProducts();
     renderDashboard();
@@ -795,14 +750,15 @@ function syncOrdersFromCart() {
 }
 
 function loadAll() {
-    // Kayıtlı token'ı yükle
-    const savedToken = getGitHubToken();
-    if (savedToken) {
-        document.getElementById('githubToken').value = savedToken;
-    }
     renderDashboard();
     renderProducts();
     renderOrders();
+    pullFromGithub().then(products => {
+        if (products) {
+            renderDashboard();
+            renderProducts();
+        }
+    });
 }
 
 // Enter ile login
