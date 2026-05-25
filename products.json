@@ -70,5 +70,17 @@
     "image": "perfume project/JAHA Bottle 1.jpeg",
     "page": "luxury",
     "category": ""
+  },
+  {
+    "id": "p1779714497223",
+    "nameTr": "JAHA Al HAYBA",
+    "nameAr": "JAHA Al HAYBA",
+    "descTr": "",
+    "descAr": "",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "index",
+    "category": ""
   }
 ]
