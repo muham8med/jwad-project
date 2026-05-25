@@ -370,12 +370,20 @@ tr:hover td { background: rgba(212,175,55,0.03); }
                             <option value="luxury">Lüks Sayfası</option>
                         </select>
                     </div>
+                    <div class="form-group"><label>Kategori</label>
+                        <select id="prodCategory">
+                            <option value="">Genel</option>
+                            <option value="Özel Seri">Özel Seri</option>
+                            <option value="Limitli Üretim">Limitli Üretim</option>
+                            <option value="Klasikler">Klasikler</option>
+                        </select>
+                    </div>
                 </div>
                 <button class="btn-save" onclick="saveProduct()">Ürünü Kaydet</button>
                 <button style="margin-left:10px;padding:12px 20px;background:transparent;border:1px solid var(--muted);color:var(--muted);border-radius:30px;cursor:pointer;font-size:13px;display:none" id="cancelEditBtn" onclick="cancelEdit()">İptal</button>
             </div>
             <table id="productsTable">
-                <thead><tr><th>ID</th><th>Ad</th><th>Fiyat</th><th>Stok</th><th>Sayfa</th><th>İşlem</th></tr></thead>
+                <thead><tr><th>ID</th><th>Ad</th><th>Fiyat</th><th>Stok</th><th>Sayfa</th><th>Kategori</th><th>İşlem</th></tr></thead>
                 <tbody id="productsBody"></tbody>
             </table>
         </div>
@@ -442,11 +450,11 @@ function saveOrdersToStore(orders) {
 
 function defaultProducts() {
     return [
-        { id: 'p1', nameTr: 'JAHA GENTLEMAN', nameAr: 'JAHA GENTLEMAN', descTr: 'Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.', descAr: 'مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
-        { id: 'p2', nameTr: 'JAHA ROSE', nameAr: 'JAHA ROSE نسائي', descTr: 'İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.', descAr: 'الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
-        { id: 'p3', nameTr: 'JAHA TITAN', nameAr: 'JAHA TITAN', descTr: 'Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.', descAr: 'خيار الرجل العصري بتأثيره القوي والطويل الأمد.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
-        { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
-        { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' }
+        { id: 'p1', nameTr: 'JAHA GENTLEMAN', nameAr: 'JAHA GENTLEMAN', descTr: 'Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.', descAr: 'مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', category: '' },
+        { id: 'p2', nameTr: 'JAHA ROSE', nameAr: 'JAHA ROSE نسائي', descTr: 'İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.', descAr: 'الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', category: '' },
+        { id: 'p3', nameTr: 'JAHA TITAN', nameAr: 'JAHA TITAN', descTr: 'Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.', descAr: 'خيار الرجل العصري بتأثيره القوي والطويل الأمد.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', category: '' },
+        { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'luxury', category: 'Özel Seri' },
+        { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'luxury', category: 'Özel Seri' }
     ];
 }
 
@@ -497,6 +505,7 @@ function renderProducts() {
             <td>${p.price} ₺</td>
             <td style="color:${stockColor};font-weight:600">${stock}</td>
             <td>${p.page === 'luxury' ? 'Lüks' : 'Ana Sayfa'}</td>
+            <td style="color:var(--muted);font-size:12px">${p.category || '-'}</td>
             <td class="table-actions">
                 <button class="btn-edit" onclick="editProduct('${p.id}')">✏️ Düzenle</button>
                 <button class="btn-delete" onclick="deleteProduct('${p.id}')">🗑️ Sil</button>
@@ -516,6 +525,7 @@ function saveProduct() {
     const stock = parseInt(document.getElementById('prodStock').value) || 0;
     const image = document.getElementById('prodImage').value.trim() || 'perfume project/JAHA Bottle 1.jpeg';
     const page = document.getElementById('prodPage').value;
+    const category = document.getElementById('prodCategory').value;
 
     if (!nameTr || !price) { alert('Ürün adı ve fiyat zorunludur!'); return; }
 
@@ -523,11 +533,11 @@ function saveProduct() {
     if (editId) {
         const idx = products.findIndex(p => p.id === editId);
         if (idx > -1) {
-            products[idx] = { ...products[idx], nameTr, nameAr, descTr, descAr, price, stock, image, page };
+            products[idx] = { ...products[idx], nameTr, nameAr, descTr, descAr, price, stock, image, page, category };
         }
     } else {
         const newId = 'p' + Date.now();
-        products.push({ id: newId, nameTr, nameAr, descTr, descAr, price, stock, image, page });
+        products.push({ id: newId, nameTr, nameAr, descTr, descAr, price, stock, image, page, category });
     }
     saveProductsToStore(products);
     cancelEdit();
@@ -548,6 +558,7 @@ function editProduct(id) {
     document.getElementById('prodStock').value = p.stock !== undefined ? p.stock : 10;
     document.getElementById('prodImage').value = p.image || '';
     document.getElementById('prodPage').value = p.page || 'index';
+    document.getElementById('prodCategory').value = p.category || '';
     document.getElementById('formTitle').textContent = '✏️ Ürünü Düzenle';
     document.getElementById('cancelEditBtn').style.display = 'inline-block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -563,6 +574,7 @@ function cancelEdit() {
     document.getElementById('prodStock').value = '10';
     document.getElementById('prodImage').value = 'perfume project/JAHA Bottle 1.jpeg';
     document.getElementById('prodPage').value = 'index';
+    document.getElementById('prodCategory').value = '';
     document.getElementById('formTitle').textContent = 'Yeni Ürün Ekle';
     document.getElementById('cancelEditBtn').style.display = 'none';
 }
@@ -598,7 +610,9 @@ function renderOrders() {
             </div>
             <div style="font-size:13px;color:var(--muted);margin-bottom:8px">
                 ${o.customerName ? '👤 ' + o.customerName : ''} ${o.phone ? '📞 ' + o.phone : ''} ${o.email ? '✉️ ' + o.email : ''}
+                ${o.city ? '📍 ' + o.city + '/' + (o.district||'') : ''}
             </div>
+            ${o.address ? '<div style="font-size:12px;color:var(--muted);margin-bottom:4px">🏠 ' + o.address + (o.postalCode ? ' (' + o.postalCode + ')' : '') + '</div>' : ''}
             <div class="order-items">${itemsHtml}</div>
             <div class="order-total">Toplam: ${(o.total || 0).toLocaleString()} ₺</div>
             <div class="order-actions">

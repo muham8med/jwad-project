@@ -125,6 +125,11 @@
             <input type="text" id="fullname" required placeholder="Örn: Ahmet Yılmaz">
         </div>
 
+        <div class="form-group">
+            <label for="phone">Telefon *</label>
+            <input type="tel" id="phone" required placeholder="Örn: 0555 555 55 55">
+        </div>
+
         <div class="row">
             <div class="form-group">
                 <label for="city">İl *</label>
@@ -155,9 +160,8 @@
 
 <script>
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Formun normal gönderimini engelle
+        e.preventDefault();
 
-        // Sepet verisini al
         let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
         if (cart.length === 0) {
             alert("Sepetiniz boş. Lütfen önce ürün ekleyin.");
@@ -165,23 +169,45 @@
             return;
         }
 
-        // Form verilerini al
         const fullname = document.getElementById('fullname').value.trim();
+        const phone = document.getElementById('phone').value.trim();
         const city = document.getElementById('city').value;
         const district = document.getElementById('district').value.trim();
         const address = document.getElementById('address').value.trim();
         const postalCode = document.getElementById('postalCode').value.trim();
 
-        // Toplam Tutar Hesaplama
         let total = 0;
         let productsText = "";
+        const orderItems = [];
         cart.forEach((product, index) => {
             const itemTotal = product.priceNum * product.quantity;
             total += itemTotal;
+            orderItems.push({ name: product.name, price: product.priceNum + ' ₺', quantity: product.quantity });
             productsText += `${index + 1}. *${product.quantity} adet* ${product.name}\n   _Fiyat: ${product.priceNum} ₺ x ${product.quantity} = ${itemTotal} ₺_\n\n`;
         });
 
-        // WhatsApp Mesajı Oluştur
+        // Admin paneline kaydet
+        const ordersKey = 'jahaAdminOrders';
+        let orders = JSON.parse(localStorage.getItem(ordersKey)) || [];
+        orders.push({
+            id: 'ORD' + Date.now(),
+            date: new Date().toLocaleString('tr-TR'),
+            status: 'bekliyor',
+            items: orderItems,
+            total: total,
+            customerName: fullname,
+            phone: phone,
+            city: city,
+            district: district,
+            address: address,
+            postalCode: postalCode
+        });
+        localStorage.setItem(ordersKey, JSON.stringify(orders));
+
+        // Sepeti temizle
+        localStorage.removeItem('jahaCart');
+
+        // WhatsApp Mesajı
         let message = "🧾 *JAHA PERFUME'S - SİPARİŞ DETAYLARI*\n";
         message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
         message += `📅 *Tarih:* ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR')}\n`;
@@ -189,6 +215,7 @@
         
         message += "👤 *MÜŞTERİ BİLGİLERİ:*\n";
         message += `▪️ *Ad Soyad:* ${fullname}\n`;
+        message += `▪️ *Telefon:* ${phone}\n`;
         message += `▪️ *İl / İlçe:* ${city} / ${district}\n`;
         message += `▪️ *Posta Kodu:* ${postalCode}\n`;
         message += `▪️ *Adres:* ${address}\n\n`;
@@ -202,12 +229,11 @@
         message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
         message += "Merhaba, yukarıdaki bilgiler doğrultusunda siparişimi onaylamak istiyorum. Yardımcı olabilir misiniz?";
 
-        // Mesajı URL formatına dönüştür
         const encodedMessage = encodeURIComponent(message);
-        const waNumber = "905515101339"; 
-        
-        // WhatsApp'ı aç
-        window.open(`https://wa.me/${waNumber}?text=${encodedMessage}`, '_blank');
+        window.open(`https://wa.me/905515101339?text=${encodedMessage}`, '_blank');
+
+        alert('Siparişiniz alındı! WhatsApp yönlendiriliyorsunuz.');
+        window.location.href = 'luxury.html';
     });
 </script>
 
