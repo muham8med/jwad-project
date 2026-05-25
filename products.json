@@ -70,6 +70,92 @@
     "image": "perfume project/JAHA Bottle 1.jpeg",
     "page": "index",
     "category": "Özel Seri"
+  },
+  {
+    "id": "p1779713639215",
+    "nameTr": "jwad",
+    "nameAr": "jawd",
+    "descTr": "mnmn",
+    "descAr": "gbgg",
+    "price": 2222,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": "Özel Seri"
+  }
+]
+[
+  {
+    "id": "p1",
+    "nameTr": "JAHA GENTLEMAN",
+    "nameAr": "JAHA GENTLEMAN",
+    "descTr": "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
+    "descAr": "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "index",
+    "category": ""
+  },
+  {
+    "id": "p2",
+    "nameTr": "JAHA ROSE",
+    "nameAr": "JAHA ROSE نسائي",
+    "descTr": "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
+    "descAr": "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "index",
+    "category": ""
+  },
+  {
+    "id": "p3",
+    "nameTr": "JAHA TITAN",
+    "nameAr": "JAHA TITAN",
+    "descTr": "Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.",
+    "descAr": "خيار الرجل العصري بتأثيره القوي والطويل الأمد.",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "index",
+    "category": ""
+  },
+  {
+    "id": "p4",
+    "nameTr": "JAHA Al HAYBA",
+    "nameAr": "JAHA Al HAYBA",
+    "descTr": "Doğu'nun gizemli esanslarıyla büyüleyici bir deneyim.",
+    "descAr": "تجربة ساحرة مع خلاصات الشرق الغامضة.",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": "Özel Seri"
+  },
+  {
+    "id": "p5",
+    "nameTr": "JAHA STORM",
+    "nameAr": "JAHA STORM",
+    "descTr": "Taze ve dinamik notalarla enerjinizi yükseltin.",
+    "descAr": "ارفع طاقتك بنفحات منعشة وديناميكية.",
+    "price": 1200,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": "Özel Seri"
+  },
+  {
+    "id": "p1779713416066",
+    "nameTr": "Mohamed",
+    "nameAr": "cvdfdf",
+    "descTr": "",
+    "descAr": "",
+    "price": 1240,
+    "stock": 9,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "index",
+    "category": "Özel Seri"
   }
 ]
 [
