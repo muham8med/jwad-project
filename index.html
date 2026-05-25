@@ -1267,6 +1267,7 @@
 
         // --- 3. ÜRÜN SİSTEMİ (PRODUCT SYSTEM) ---
         const STORAGE_PRODUCTS = 'jahaAdminProducts';
+        const GITHUB_RAW = 'https://raw.githubusercontent.com/muham8med/jwad-project/main/products.json';
 
         function getProducts() {
             let data = localStorage.getItem(STORAGE_PRODUCTS);
@@ -1289,6 +1290,22 @@
                 { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
                 { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' }
             ];
+        }
+
+        async function syncFromGithub() {
+            try {
+                const res = await fetch(GITHUB_RAW + '?t=' + Date.now());
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const products = await res.json();
+                if (!Array.isArray(products) || products.length === 0) return;
+                const existing = localStorage.getItem(STORAGE_PRODUCTS);
+                if (existing && JSON.stringify(products) === existing) return;
+                localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+                renderProductCards();
+                globalPerfumes = buildGlobalPerfumes();
+            } catch (e) {
+                console.warn('GitHub sync failed, using local data:', e.message);
+            }
         }
 
         let products = getProducts();
@@ -1327,6 +1344,9 @@
 
         // Ürün kartlarını yükle (dinamik)
         renderProductCards();
+
+        // GitHub'dan güncel ürünleri arka planda çek (tüm cihazlar aynı veriyi görsün)
+        syncFromGithub();
 
         // --- 4. SLIDER SİSTEMİ (dinamik) ---
         (function initSlider() {

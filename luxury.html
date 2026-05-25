@@ -574,6 +574,7 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
 
     // --- 2. ÜRÜN SİSTEMİ (PRODUCT SYSTEM) ---
     const STORAGE_PRODUCTS = 'jahaAdminProducts';
+    const GITHUB_RAW = 'https://raw.githubusercontent.com/muham8med/jwad-project/main/products.json';
 
     function getProducts() {
         let data = localStorage.getItem(STORAGE_PRODUCTS);
@@ -596,6 +597,22 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
 
     function saveProducts(products) {
         localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+    }
+
+    async function syncFromGithub() {
+        try {
+            const res = await fetch(GITHUB_RAW + '?t=' + Date.now());
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const products = await res.json();
+            if (!Array.isArray(products) || products.length === 0) return;
+            const existing = localStorage.getItem(STORAGE_PRODUCTS);
+            if (existing && JSON.stringify(products) === existing) return;
+            localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+            renderLuxuryProducts();
+            globalPerfumes = buildGlobalPerfumes();
+        } catch (e) {
+            console.warn('GitHub sync failed, using local data:', e.message);
+        }
     }
 
     // --- 3. LUXURY ÜRÜNLERİNİ GÖSTER ---
@@ -852,6 +869,7 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
 
     // --- BAŞLAT ---
     renderLuxuryProducts();
+    syncFromGithub();
 </script>
 </body>
 </html>
