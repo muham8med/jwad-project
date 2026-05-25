@@ -499,7 +499,8 @@ const GITHUB_OWNER = 'muham8med';
 const GITHUB_REPO = 'jwad-project';
 const GITHUB_PATH = 'products.json';
 const GITHUB_RAW = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${GITHUB_PATH}`;
-const GITHUB_API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
+const GITHUB_API_GET = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=main`;
+const GITHUB_API_PUT = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_PATH}`;
 
 function getGitHubToken() {
     return localStorage.getItem('jahaGitToken') || '';
@@ -522,7 +523,7 @@ function showSyncStatus(msg, isError) {
 }
 
 async function getFileSha(token) {
-    const res = await fetch(GITHUB_API, { headers: { Authorization: 'Bearer ' + token } });
+    const res = await fetch(GITHUB_API_GET, { headers: { Authorization: 'Bearer ' + token } });
     if (!res.ok) throw new Error('SHA alınamadı: ' + res.status);
     const data = await res.json();
     return data.sha;
@@ -535,7 +536,7 @@ async function pushToGithub(products) {
     try {
         const sha = await getFileSha(token);
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(products, null, 2))));
-        const res = await fetch(GITHUB_API, {
+        const res = await fetch(GITHUB_API_PUT, {
             method: 'PUT',
             headers: {
                 Authorization: 'Bearer ' + token,
