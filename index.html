@@ -729,6 +729,14 @@
             color: var(--black);
         }
 
+        .add-to-cart-btn.disabled-btn,
+        .add-to-cart-btn:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: not-allowed;
+            background: transparent;
+        }
+
         /* FREE SHIPPING BADGE STYLE */
         .free-shipping-badge {
             position: absolute;
@@ -1197,50 +1205,8 @@
 
         <section id="collection" class="collection">
         <h2 class="section-title translatable" data-tr="Özel Ürünlerimiz" data-ar="منتجاتنا الخاصة">Özel Ürünlerimiz</h2>
-
-        <div class="cards">
-            <div class="card">
-                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA GENTLEMAN Perfume" class="bottle-img">
-                <h3 class="translatable" data-tr="JAHA GENTLEMAN" data-ar="JAHA GENTLEMAN">JAHA GENTLEMAN</h3>
-                <p class="translatable"
-                    data-tr="Odunsu notalar ve karabiberin maskülen ve keskin birleşimi."
-                    data-ar="مزيج ذكوري وحad من الملاحظات الخشبية والفلفل الأسود.">Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.</p>
-
-                <div class="card-actions">
-                    <span class="new-price">1200 ₺</span>
-                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA ROSE Perfume" class="bottle-img">
-                <h3 class="translatable" data-tr="JAHA ROSE" data-ar="JAHA ROSE  نسائي">JAHA ROSE</h3>
-                <p class="translatable" 
-                    data-tr="İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti."
-                    data-ar="الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.">İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.</p>
-
-                <div class="card-actions">
-                    <span class="new-price">1200 ₺</span>
-                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
-                <img src="perfume project/JAHA Bottle 1.jpeg" alt="JAHA Al HAYBA Perfume" class="bottle-img">
-                <h3 class="translatable" data-tr="JAHA Al HAYBA" data-ar="JAHA Al HAYBA">JAHA Al HAYBA</h3>
-                <p class="translatable" 
-                    data-tr="Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu."
-                    data-ar="اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.">Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.</p>
-
-                <div class="card-actions">
-                    <span class="new-price">1200 ₺</span>
-                    <button class="add-to-cart-btn translatable" data-tr="Sepete Ekle" data-ar="أضف إلى السلة">Sepete Ekle</button>
-                </div>
-            </div>
-        </div>
+        <div class="cards" id="productCards"></div>
+        <div id="productCount" style="text-align:center;color:var(--muted);font-size:13px;margin-top:10px"></div>
     </section>
 
     <section id="contact" class="contact">
@@ -1328,6 +1294,9 @@
         // Sayfa ilk yüklendiğinde dil ayarını çalıştır
         setLanguage(currentLang);
 
+        // Ürün kartlarını yükle (dinamik)
+        renderProductCards();
+
         // --- 3. SLIDER SİSTEMİ ---
         (function initSlider() {
             const container = document.getElementById('productSlider');
@@ -1378,88 +1347,93 @@
             startSlider();
         })();
 
-        // --- 4. GLOBAL ARAMA SİSTEMİ VE VERİ TABANI ---
-        const globalPerfumes = [
-            // Home Page Products
-            {
-                nameTr: "JAHA GENTLEMAN",
-                nameAr: "JAHA GENTLEMAN",
-                descTr: "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
-                descAr: "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "1200 ₺",
-                page: "index.html#collection"
-            },
-            {
-                nameTr: "JAHA ROSE",
-                nameAr: "JAHA ROSE  نسائي",
-                descTr: "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
-                descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "1200 ₺",
-                page: "index.html#collection"
-            },
-            {
-                nameTr: "JAHA Al HAYBA",
-                nameAr: "JAHA Al HAYBA",
-                descTr: "Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.",
-                descAr: "اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "1200 ₺",
-                page: "index.html#collection"
-            },
-            // Luxury Page Products
-            {
-                nameTr: "JAHA GENTLEMAN",
-                nameAr: "JAHA GENTLEMAN",
-                descTr: "Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.",
-                descAr: "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "₺1.200",
-                page: "luxury.html"
-            },
-            {
-                nameTr: "JAHA ROSE",
-                nameAr: "JAHA ROSE  نسائي",
-                descTr: "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
-                descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "₺1.200",
-                page: "luxury.html"
-            },
-            {
-                nameTr: "JAHA TITAN",
-                nameAr: "JAHA TITAN",
-                descTr: "Güneşin sıcaklığını hissettiren amber ve vanilya notaları.",
-                descAr: "ملاحظات العنبر والفانيليا التي تجعلك تشعر بدفء الشمس.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "₺1.200",
-                page: "luxury.html"
-            },
-            {
-                nameTr: "JAHA Al HAYBA",
-                nameAr: "JAHA Al HAYBA",
-                descTr: "Gerçek Asya öd ağacının lüks ve kalıcı dokunuşu.",
-                descAr: "اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "₺1.200",
-                page: "luxury.html"
-            },
-            {
-                nameTr: "JAHA STORM",
-                nameAr: "JAHA STORM",
-                descTr: "Gizemli baharatlar ve siyah orkidenin gecenin derinliğindeki dansı.",
-                descAr: "رقصة التوابل الغامضة والأوركيد الأسود في عمق الليل.",
-                img: "perfume project/JAHA Bottle 1.jpeg",
-                price: "₺1.200",
-                page: "luxury.html"
-            }
-        ];
+        // --- 4. ÜRÜN SİSTEMİ (PRODUCT SYSTEM) ---
+        const STORAGE_PRODUCTS = 'jahaAdminProducts';
 
-        const perfumeCards = document.querySelectorAll('.card');
+        function getProducts() {
+            let data = localStorage.getItem(STORAGE_PRODUCTS);
+            if (!data) {
+                data = defaultHomeProducts();
+                localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(data));
+            }
+            return JSON.parse(data);
+        }
+
+        function saveProducts(products) {
+            localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+        }
+
+        function defaultHomeProducts() {
+            return [
+                { id: 'p1', nameTr: 'JAHA GENTLEMAN', nameAr: 'JAHA GENTLEMAN', descTr: 'Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.', descAr: 'مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
+                { id: 'p2', nameTr: 'JAHA ROSE', nameAr: 'JAHA ROSE نسائي', descTr: 'İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.', descAr: 'الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
+                { id: 'p3', nameTr: 'JAHA TITAN', nameAr: 'JAHA TITAN', descTr: 'Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.', descAr: 'خيار الرجل العصري بتأثيره القوي والطويل الأمد.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
+                { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' },
+                { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index' }
+            ];
+        }
+
+        let products = getProducts();
+        const productCardsContainer = document.getElementById('productCards');
+        const productCountEl = document.getElementById('productCount');
+
+        function renderProductCards() {
+            products = getProducts();
+            const homeProducts = products.filter(p => p.page === 'index');
+            let html = '';
+            homeProducts.forEach(p => {
+                const stock = p.stock !== undefined ? p.stock : 10;
+                const outOfStock = stock <= 0;
+                const imgAlt = p.nameTr || 'Perfume';
+                html += `<div class="card" data-id="${p.id}">
+                    <div class="free-shipping-badge translatable" data-tr="Kargo Bedava" data-ar="شحن مجاني">Kargo Bedava</div>
+                    <img src="${p.image}" alt="${imgAlt}" class="bottle-img">
+                    <div style="text-align:left;font-size:12px;color:${stock <= 0 ? 'var(--red)' : stock <= 3 ? 'var(--gold)' : 'var(--green)'};font-weight:600;margin-top:4px">
+                        ${stock <= 0 ? 'Tükendi' : 'Kalan: ' + stock + ' adet'}
+                    </div>
+                    <h3 class="translatable" data-tr="${p.nameTr}" data-ar="${p.nameAr || p.nameTr}">${p.nameTr}</h3>
+                    <p class="translatable" data-tr="${p.descTr || ''}" data-ar="${p.descAr || ''}">${p.descTr || ''}</p>
+                    <div class="card-actions">
+                        <span class="new-price">${p.price} ₺</span>
+                        <button class="add-to-cart-btn translatable ${outOfStock ? 'disabled-btn' : ''}" data-tr="Sepete Ekle" data-ar="أضف إلى السلة" ${outOfStock ? 'disabled' : ''}>${outOfStock ? 'Tükendi' : 'Sepete Ekle'}</button>
+                    </div>
+                </div>`;
+            });
+            productCardsContainer.innerHTML = html || '<p style="color:var(--muted);text-align:center">Henüz ürün eklenmemiş.</p>';
+            productCountEl.textContent = 'Toplam ' + homeProducts.length + ' ürün';
+            attachAddToCart();
+        }
+
+        function attachAddToCart() {
+            document.querySelectorAll('.add-to-cart-btn:not(.disabled-btn)').forEach(btn => {
+                btn.removeEventListener('click', addToCart);
+                btn.addEventListener('click', addToCart);
+            });
+        }
+
+        // Ürün sistemini globalPerfumes ile uyumlu hale getir (arama için)
+        function buildGlobalPerfumes() {
+            const allProducts = getProducts();
+            const list = [];
+            allProducts.forEach(p => {
+                const pageRef = p.page === 'luxury' ? 'luxury.html' : 'index.html#collection';
+                list.push({
+                    nameTr: p.nameTr,
+                    nameAr: p.nameAr || p.nameTr,
+                    descTr: p.descTr || '',
+                    descAr: p.descAr || '',
+                    img: p.image,
+                    price: p.price + ' ₺',
+                    page: pageRef
+                });
+            });
+            return list;
+        }
+
+        let globalPerfumes = buildGlobalPerfumes();
 
         function resetCards() {
-            perfumeCards.forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 card.style.borderColor = 'rgba(212,175,55,0.15)';
                 card.style.transform = 'translateY(0)';
             });
@@ -1478,7 +1452,7 @@
             resetCards();
             let found = false;
 
-            perfumeCards.forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 const h3 = card.querySelector('h3');
                 if (!h3) return;
                 const title = h3.innerText.toLowerCase();
@@ -1593,7 +1567,7 @@
                         
                         // Bu sayfada var mı kontrol et
                         let targetCard = null;
-                        perfumeCards.forEach(card => {
+                        document.querySelectorAll('.card').forEach(card => {
                             const h3 = card.querySelector('h3');
                             if (h3) {
                                 const trName = (h3.getAttribute('data-tr') || h3.innerText).toLowerCase();
@@ -1687,12 +1661,22 @@
             const productPriceText = card.querySelector('.new-price').innerText;
             const productPriceNum = parseInt(productPriceText.replace(/[^\d]/g, '')) || 1000;
             const productImg = card.querySelector('.bottle-img').getAttribute('src');
+            const productId = card.getAttribute('data-id');
+
+            // Stoktan düş
+            let allProducts = getProducts();
+            const prodIdx = allProducts.findIndex(p => p.id === productId);
+            if (prodIdx > -1) {
+                const currentStock = allProducts[prodIdx].stock !== undefined ? allProducts[prodIdx].stock : 10;
+                if (currentStock <= 0) return;
+                allProducts[prodIdx].stock = currentStock - 1;
+                saveProducts(allProducts);
+            }
 
             // Eğer ürün zaten sepette varsa, sadece miktarını artır
             const existingItemIndex = cart.findIndex(item => item.name === productName);
             
             if (existingItemIndex > -1) {
-                // Eski formatta eklenmişse (quantity yoksa) 1 olarak başlat
                 if (!cart[existingItemIndex].quantity) {
                     cart[existingItemIndex].quantity = 1;
                     cart[existingItemIndex].priceNum = productPriceNum;
@@ -1718,11 +1702,12 @@
             setTimeout(() => {
                 cartBtn.style.transform = 'scale(1)';
             }, 200);
-        }
 
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', addToCart);
-        });
+            // Kartları yenile (stok güncellendi)
+            renderProductCards();
+            // Global arama verisini güncelle
+            globalPerfumes = buildGlobalPerfumes();
+        }
 
         // Başlangıçta sepet sayısını yansıt
         updateCartCount();
