@@ -278,21 +278,41 @@ tr:hover td { background: rgba(212,175,55,0.03); }
 }
 .order-actions button:hover { opacity: 0.8; }
 .empty-msg { color: var(--muted); font-style: italic; padding: 20px 0; }
+/* TABLE WRAPPER for horizontal scroll on mobile */
+.table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap table { min-width: 500px; }
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); padding: 15px 0; }
-    .sidebar h2 { padding: 0 15px 12px; }
-    .sidebar a { display: inline-block; padding: 8px 14px; border-left: none; border-bottom: 2px solid transparent; font-size: 13px; }
+    .sidebar h2 { padding: 0 15px 12px; font-size: 15px; }
+    .sidebar a { display: inline-block; padding: 8px 12px; border-left: none; border-bottom: 2px solid transparent; font-size: 12px; }
     .sidebar a:hover, .sidebar a.active { border-left: none; border-bottom-color: var(--gold); }
     .admin-layout { flex-direction: column; }
-    .main-content { padding: 20px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .main-content { padding: 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .stat-card { padding: 16px; }
+    .stat-card .stat-number { font-size: 28px; }
     .form-row .form-group { min-width: 100%; }
+    .form-group input, .form-group textarea, .form-group select { max-width: 100%; }
+    .page-section h2 { font-size: 20px; }
 }
 @media (max-width: 480px) {
     .stats-grid { grid-template-columns: 1fr; }
-    table { font-size: 12px; }
-    th, td { padding: 8px 6px; }
+    .order-card { padding: 14px; }
+    .order-card .order-header { flex-direction: column; align-items: flex-start; }
+    .order-actions { flex-direction: column; }
+    .order-actions select { width: 100%; }
+    .order-actions button { width: 100%; }
+    /* Hide less important table columns on very small screens */
+    .table-wrap table th:nth-child(5),
+    .table-wrap table td:nth-child(5) { display: none; } /* Sayfa */
+    .table-wrap table th:nth-child(6),
+    .table-wrap table td:nth-child(6) { display: none; } /* Kategori */
+    .btn-save, .cancel-btn { width: 100%; margin-left: 0 !important; margin-top: 8px; }
+    .main-content { padding: 12px; }
+    .stat-card { padding: 12px; }
+    .stat-card .stat-number { font-size: 24px; }
 }
 /* LOGOUT */
 .logout-btn {
@@ -380,12 +400,14 @@ tr:hover td { background: rgba(212,175,55,0.03); }
                     </div>
                 </div>
                 <button class="btn-save" onclick="saveProduct()">Ürünü Kaydet</button>
-                <button style="margin-left:10px;padding:12px 20px;background:transparent;border:1px solid var(--muted);color:var(--muted);border-radius:30px;cursor:pointer;font-size:13px;display:none" id="cancelEditBtn" onclick="cancelEdit()">İptal</button>
+                <button style="margin-left:10px;padding:12px 20px;background:transparent;border:1px solid var(--muted);color:var(--muted);border-radius:30px;cursor:pointer;font-size:13px;display:none" class="cancel-btn" id="cancelEditBtn" onclick="cancelEdit()">İptal</button>
             </div>
+            <div class="table-wrap">
             <table id="productsTable">
                 <thead><tr><th>ID</th><th>Ad</th><th>Fiyat</th><th>Stok</th><th>Sayfa</th><th>Kategori</th><th>İşlem</th></tr></thead>
                 <tbody id="productsBody"></tbody>
             </table>
+            </div>
         </div>
 
         <!-- ORDERS -->
