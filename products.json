@@ -58,5 +58,17 @@
     "image": "perfume project/JAHA Bottle 1.jpeg",
     "page": "luxury",
     "category": "Özel Seri"
+  },
+  {
+    "id": "p1779713815725",
+    "nameTr": "Muhammed",
+    "nameAr": "محمد",
+    "descTr": "",
+    "descAr": "",
+    "price": 1222,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": "Klasikler"
   }
 ]
