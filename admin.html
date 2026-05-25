@@ -505,7 +505,7 @@ function exportToGithub() {
     el.style.display = 'block';
     el.select();
     document.execCommand('copy');
-    document.getElementById('exportStatus').textContent = '✓ Kopyalandı! Şimdi GitHub'da yapıştırın.';
+    document.getElementById('exportStatus').textContent = "✓ Kopyalandı! Şimdi GitHub'da yapıştırın.";
     document.getElementById('exportStatus').style.color = 'var(--green)';
     // GitHub edit sayfasını aç
     window.open(GITHUB_EDIT_URL, '_blank');
