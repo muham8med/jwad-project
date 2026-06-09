@@ -543,19 +543,22 @@
     // Eski/Yeni cart veri formatını normalize et (quantity ve image eksiklerini tamamla)
     let cart = [];
     rawCart.forEach(item => {
+        if (!item || !item.name) return; // Geçersiz veya boş öğeleri atla
+        
         const existing = cart.find(n => n.name === item.name);
         if (existing) {
-            existing.quantity += (item.quantity || 1);
+            existing.quantity += (parseInt(item.quantity) || 1);
         } else {
-            let priceVal = item.priceNum;
+            let priceVal = parseInt(item.priceNum);
             if (!priceVal) {
-                priceVal = parseInt((item.price || "1000").replace(/[^\d]/g, '')) || 1000;
+                const priceStr = String(item.price || "1000");
+                priceVal = parseInt(priceStr.replace(/[^\d]/g, '')) || 1000;
             }
             cart.push({
                 name: item.name,
                 priceNum: priceVal,
                 image: item.image || "perfume project/JAHA Bottle 1.jpeg",
-                quantity: item.quantity || 1
+                quantity: parseInt(item.quantity) || 1
             });
         }
     });

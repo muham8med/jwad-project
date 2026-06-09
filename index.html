@@ -1664,12 +1664,33 @@
         checkUrlSearchParam();
 
         // --- 5. SEPET SİSTEMİ (CART SYSTEM) ---
-        let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+        let rawCart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+        let cart = [];
+        rawCart.forEach(item => {
+            if (!item || !item.name) return;
+            const existing = cart.find(n => n.name === item.name);
+            if (existing) {
+                existing.quantity += (parseInt(item.quantity) || 1);
+            } else {
+                let priceVal = parseInt(item.priceNum);
+                if (!priceVal) {
+                    const priceStr = String(item.price || "1000");
+                    priceVal = parseInt(priceStr.replace(/[^\d]/g, '')) || 1000;
+                }
+                cart.push({
+                    name: item.name,
+                    priceNum: priceVal,
+                    image: item.image || "perfume project/JAHA Bottle 1.jpeg",
+                    quantity: parseInt(item.quantity) || 1
+                });
+            }
+        });
+        localStorage.setItem('jahaCart', JSON.stringify(cart));
 
         function updateCartCount() {
             // Sepetteki toplam ürün adedini hesapla
             let count = 0;
-            cart.forEach(item => { count += (item.quantity || 1); });
+            cart.forEach(item => { if (item) count += (item.quantity || 1); });
             cartCounter.innerText = count;
         }
 
@@ -1692,6 +1713,10 @@
                 allProducts[prodIdx].stock = currentStock - 1;
                 saveProducts(allProducts);
             }
+
+            // Başka sayfalarda sepete eklenen ürünleri ezmemek için localstorage'dan güncel sepeti oku
+            cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+            if (!Array.isArray(cart)) cart = [];
 
             // Eğer ürün zaten sepette varsa, sadece miktarını artır
             const existingItemIndex = cart.findIndex(item => item.name === productName);

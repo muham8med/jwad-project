@@ -672,14 +672,35 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     }
 
     // --- 4. SEPET (CART) SİSTEMİ ---
-    let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+    let rawCart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+    let cart = [];
+    rawCart.forEach(item => {
+        if (!item || !item.name) return;
+        const existing = cart.find(n => n.name === item.name);
+        if (existing) {
+            existing.quantity += (parseInt(item.quantity) || 1);
+        } else {
+            let priceVal = parseInt(item.priceNum);
+            if (!priceVal) {
+                const priceStr = String(item.price || "1000");
+                priceVal = parseInt(priceStr.replace(/[^\d]/g, '')) || 1000;
+            }
+            cart.push({
+                name: item.name,
+                priceNum: priceVal,
+                image: item.image || "perfume project/JAHA Bottle 1.jpeg",
+                quantity: parseInt(item.quantity) || 1
+            });
+        }
+    });
+    localStorage.setItem('jahaCart', JSON.stringify(cart));
     const cartBtn = document.getElementById('cartBtn');
     const cartCounter = document.querySelector('.cart-count');
     let globalPerfumes = [];
 
     function updateCartCount() {
         let count = 0;
-        cart.forEach(item => { count += (item.quantity || 1); });
+        cart.forEach(item => { if (item) count += (item.quantity || 1); });
         cartCounter.innerText = count;
     }
     updateCartCount();

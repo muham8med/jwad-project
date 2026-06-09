@@ -458,7 +458,28 @@
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+        let rawCart = JSON.parse(localStorage.getItem('jahaCart')) || [];
+        let cart = [];
+        rawCart.forEach(item => {
+            if (!item || !item.name) return;
+            const existing = cart.find(n => n.name === item.name);
+            if (existing) {
+                existing.quantity += (parseInt(item.quantity) || 1);
+            } else {
+                let priceVal = parseInt(item.priceNum);
+                if (!priceVal) {
+                    const priceStr = String(item.price || "1000");
+                    priceVal = parseInt(priceStr.replace(/[^\d]/g, '')) || 1000;
+                }
+                cart.push({
+                    name: item.name,
+                    priceNum: priceVal,
+                    image: item.image || "perfume project/JAHA Bottle 1.jpeg",
+                    quantity: parseInt(item.quantity) || 1
+                });
+            }
+        });
+
         if (cart.length === 0) {
             const emptyAlert = currentLang === 'ar' 
                 ? "سلتك فارغة. يرجى إضافة منتجات أولاً." 
