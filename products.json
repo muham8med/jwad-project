@@ -96,5 +96,33 @@
     "image": "perfume project/JAHA Bottle 1.jpeg",
     "page": "index",
     "category": ""
+  },
+  {
+    "id": "p1779714500001",
+    "nameTr": "JAHA ROSE",
+    "nameAr": "JAHA ROSE نسائي",
+    "descTr": "İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.",
+    "descAr": "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
+    "price": 1600,
+    "oldPrice": 2285,
+    "discount": -30,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": ""
+  },
+  {
+    "id": "p1779714500002",
+    "nameTr": "JAHA TITAN",
+    "nameAr": "JAHA TITAN",
+    "descTr": "Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.",
+    "descAr": "خيار الرجل العصري بتأثيره القوي والطويل الأمد.",
+    "price": 1600,
+    "oldPrice": 2285,
+    "discount": -30,
+    "stock": 10,
+    "image": "perfume project/JAHA Bottle 1.jpeg",
+    "page": "luxury",
+    "category": ""
   }
 ]
