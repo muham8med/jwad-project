@@ -485,7 +485,7 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
 
 <body dir="ltr">
 
-<a href="sepet" class="floating-cart" id="cartBtn">
+<a href="sepet.html" class="floating-cart" id="cartBtn">
     🛒<span class="cart-count">0</span>
 </a>
 
@@ -503,12 +503,12 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
     </div>
 
     <header>
-        <a href="./" class="logo">JAHA PERFUME'S</a>
+        <a href="jaha.html" class="logo">JAHA PERFUME'S</a>
         <nav>
-            <a href="./#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
-            <a href="./" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
-            <a href="./#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
-            <a href="luxury" style="color: var(--gold);" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
+            <a href="jaha.html#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+            <a href="jaha.html" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="jaha.html#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+            <a href="luxury.html" style="color: var(--gold);" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
             <div class="lang-selector">
                 <span class="lang-opt" data-lang="tr">TR</span>
                 <span class="lang-opt" data-lang="ar">AR</span>
@@ -692,7 +692,7 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
                 nameTr: p.nameTr, nameAr: p.nameAr || p.nameTr,
                 descTr: p.descTr || '', descAr: p.descAr || '',
                 img: p.image, price: p.price + ' ₺',
-                page: p.page === 'luxury' ? 'luxury.html' : 'index.html#collection'
+                page: p.page === 'luxury' ? 'luxury.html' : 'jaha.html#collection'
             });
         });
         return list;
@@ -716,6 +716,9 @@ footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,
             allProducts[prodIdx].stock = currentStock - 1;
             saveProducts(allProducts);
         }
+
+        // Başka sayfalarda sepete eklenen ürünleri ezmemek için localstorage'dan güncel sepeti oku
+        cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
 
         const existingItemIndex = cart.findIndex(item => item.name === productName);
         if (existingItemIndex > -1) {

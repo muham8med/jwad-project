@@ -3,68 +3,231 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>JAHA PERFUME'S | Sipariş Ekranı</title>
+<title class="translatable" data-tr="JAHA PERFUME'S | Sipariş Ekranı" data-ar="JAHA PERFUME'S | شاشة الطلب">JAHA PERFUME'S | Sipariş Ekranı</title>
+
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180" href="media%20ph/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="media%20ph/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="media%20ph/favicon-16x16.png">
 <link rel="manifest" href="media%20ph/site.webmanifest">
 <link rel="shortcut icon" href="media%20ph/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
+    /* ===============================
+       ROOT & RESET
+    =============================== */
     :root {
         --gold: #d4af37;
+        --dark-gold: #8f6b10;
         --black: #050505;
         --card: #111111;
         --text: #f5f5f5;
+        --muted: #999;
         --input-bg: #1a1a1a;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
         font-family: 'Poppins', sans-serif;
         background: var(--black);
         color: var(--text);
-        padding: 50px 20px;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+    }
+
+    /* ===============================
+       ARAPÇA (SAĞDAN SOLA - RTL) UYUMU
+    =============================== */
+    body[dir="rtl"] { text-align: right; }
+    body[dir="rtl"] nav { flex-direction: row-reverse; }
+    body[dir="rtl"] .back-link { display: inline-flex; flex-direction: row-reverse; }
+    body[dir="rtl"] .row { flex-direction: row-reverse; }
+
+    /* ===============================
+       BACKGROUND ANIMATION & SMOKE
+    =============================== */
+    body::before {
+        content: ""; position: fixed; inset: 0;
+        background: radial-gradient(circle at top left, rgba(212,175,55,0.15), transparent 35%),
+                    radial-gradient(circle at bottom right, rgba(212,175,55,0.10), transparent 35%);
+        animation: bgMove 10s infinite alternate ease-in-out; z-index: -2;
+    }
+    @keyframes bgMove { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+    .smoke { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: -1; }
+    .smoke span { position: absolute; bottom: -200px; border-radius: 50%; background: rgba(212,175,55,0.08); filter: blur(40px); animation: smokeRise linear infinite; }
+    .smoke span:nth-child(1) { width: 300px; height: 300px; left: 10%; animation-duration: 15s; }
+    .smoke span:nth-child(2) { width: 400px; height: 400px; left: 60%; animation-duration: 18s; animation-delay: 3s; }
+    .smoke span:nth-child(3) { width: 250px; height: 250px; left: 35%; animation-duration: 12s; animation-delay: 6s; }
+    @keyframes smokeRise { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 0.5; } 100% { transform: translateY(-120vh) scale(1.4); opacity: 0; } }
+
+    /* ===============================
+       ANNOUNCEMENT BAR (MARQUEE)
+    =============================== */
+    .announcement-bar {
+        width: 100%;
+        background: linear-gradient(90deg, #8f6b10, #d4af37, #8f6b10);
+        color: #000;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 8px 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1005;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        pointer-events: none;
+    }
+    .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee 25s linear infinite;
+        animation-play-state: running !important;
+    }
+    .marquee-text {
+        padding: 0 40px;
+        white-space: nowrap;
+    }
+    @keyframes marquee {
+        0%   { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-25%, 0, 0); }
+    }
+
+    /* ===============================
+       HEADER & NAVIGATION
+    =============================== */
+    header { width: 100%; position: fixed; top: 32px; left: 0; padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(212,175,55,0.15); z-index: 1000; }
+    .logo { font-family: 'Cinzel', serif; color: var(--gold); font-size: 28px; text-decoration: none; letter-spacing: 3px; }
+    nav { display: flex; gap: 30px; align-items: center; }
+    nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 18px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    nav a::before {
+        content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        transition: all 0.5s ease;
+    }
+    nav a:hover {
+        color: var(--gold);
+        background: rgba(212, 175, 55, 0.08);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    }
+    nav a:hover::before { left: 100%; }
+
+    .lang-selector {
+        display: inline-flex;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 4px;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+    .lang-selector:hover {
+        border-color: rgba(212, 175, 55, 0.2);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        transform: translateY(-2px);
+    }
+    .lang-opt {
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        user-select: none;
+    }
+    .lang-opt.active {
+        background: var(--gold);
+        color: var(--black);
+        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    }
+    .lang-opt:not(.active):hover {
+        color: var(--gold);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===============================
+       CHECKOUT CONTAINER
+    =============================== */
+    .checkout-page-content {
+        padding: 182px 50px 100px;
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
     .container {
+        width: 100%;
         max-width: 600px;
-        margin: 0 auto;
         background: var(--card);
         padding: 40px;
         border: 1px solid rgba(212,175,55,0.2);
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
     h1 {
         font-family: 'Cinzel', serif;
         color: var(--gold);
         text-align: center;
         margin-bottom: 30px;
+        font-size: 32px;
+        letter-spacing: 2px;
     }
     .form-group {
         margin-bottom: 20px;
+        text-align: inherit;
     }
     label {
         display: block;
         margin-bottom: 8px;
         font-size: 14px;
         color: #bbb;
+        font-weight: 500;
     }
     input, select, textarea {
         width: 100%;
-        padding: 12px 15px;
+        padding: 12px 18px;
         background: var(--input-bg);
-        border: 1px solid rgba(212,175,55,0.3);
-        border-radius: 8px;
+        border: 1px solid rgba(212,175,55,0.25);
+        border-radius: 10px;
         color: white;
         font-family: 'Poppins', sans-serif;
         font-size: 15px;
         transition: 0.3s;
+        outline: none;
     }
     input:focus, select:focus, textarea:focus {
-        outline: none;
         border-color: var(--gold);
-        box-shadow: 0 0 10px rgba(212,175,55,0.2);
+        box-shadow: 0 0 15px rgba(212,175,55,0.15);
+        background: rgba(255,255,255,0.02);
     }
     .row {
         display: flex;
@@ -88,24 +251,91 @@
         border-radius: 30px;
         cursor: pointer;
         transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.25);
     }
     .whatsapp-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(212,175,55,0.3);
+        box-shadow: 0 10px 25px rgba(212,175,55,0.4);
     }
     .back-link {
         display: inline-block;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         color: var(--gold);
         text-decoration: none;
+        font-weight: 500;
+        transition: 0.3s;
     }
-    .back-link:hover { text-decoration: underline; }
+    .back-link:hover {
+        color: #f1cb55;
+        transform: translateX(-5px);
+    }
+    body[dir="rtl"] .back-link:hover {
+        transform: translateX(5px);
+    }
     textarea {
         resize: vertical;
         min-height: 100px;
     }
-    
-    @media (max-width: 600px) {
+
+    /* ===============================
+       FOOTER & RESPONSIVE
+    =============================== */
+    footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,175,55,0.1); color: #777; font-size: 14px; }
+
+    @media (max-width: 768px) {
+        header {
+            padding: 15px 10px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 12px 8px;
+            align-items: center;
+            justify-items: center;
+        }
+        nav { display: contents; }
+        .logo {
+            grid-column: 2;
+            order: 2;
+            font-size: 18px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .nav-link-home {
+            order: 1;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-cont {
+            order: 3;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-coll {
+            order: 4;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-lux {
+            order: 5;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .lang-selector {
+            order: 6;
+            padding: 2px !important;
+        }
+        .lang-opt {
+            font-size: 11px !important;
+            padding: 4px 8px !important;
+        }
+        .checkout-page-content {
+            padding: 245px 20px 60px;
+        }
+        .container {
+            padding: 25px 20px;
+        }
+        h1 {
+            font-size: 26px;
+        }
         .row {
             flex-direction: column;
             gap: 0;
@@ -115,56 +345,125 @@
 </head>
 <body>
 
-<div class="container">
-    <a href="sepet.html" class="back-link">← Sepete Dön</a>
-    <h1>Teslimat Bilgileri</h1>
-    
-    <form id="checkoutForm">
-        <div class="form-group">
-            <label for="fullname">Ad Soyad *</label>
-            <input type="text" id="fullname" required placeholder="Örn: Ahmet Yılmaz">
+    <div class="announcement-bar">
+        <div class="marquee-track">
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="phone">Telefon *</label>
-            <input type="tel" id="phone" required placeholder="Örn: 0555 555 55 55">
-        </div>
+    <div class="smoke">
+        <span></span><span></span><span></span>
+    </div>
 
-        <div class="row">
-            <div class="form-group">
-                <label for="city">İl *</label>
-                <select id="city" required>
-                    <option value="">Seçiniz...</option>
-                    <option value="Adana">Adana</option><option value="Adıyaman">Adıyaman</option><option value="Afyonkarahisar">Afyonkarahisar</option><option value="Ağrı">Ağrı</option><option value="Amasya">Amasya</option><option value="Ankara">Ankara</option><option value="Antalya">Antalya</option><option value="Artvin">Artvin</option><option value="Aydın">Aydın</option><option value="Balıkesir">Balıkesir</option><option value="Bilecik">Bilecik</option><option value="Bingöl">Bingöl</option><option value="Bitlis">Bitlis</option><option value="Bolu">Bolu</option><option value="Burdur">Burdur</option><option value="Bursa">Bursa</option><option value="Çanakkale">Çanakkale</option><option value="Çankırı">Çankırı</option><option value="Çorum">Çorum</option><option value="Denizli">Denizli</option><option value="Diyarbakır">Diyarbakır</option><option value="Edirne">Edirne</option><option value="Elazığ">Elazığ</option><option value="Erzincan">Erzincan</option><option value="Erzurum">Erzurum</option><option value="Eskişehir">Eskişehir</option><option value="Gaziantep">Gaziantep</option><option value="Giresun">Giresun</option><option value="Gümüşhane">Gümüşhane</option><option value="Hakkari">Hakkari</option><option value="Hatay">Hatay</option><option value="Isparta">Isparta</option><option value="Mersin">Mersin</option><option value="İstanbul">İstanbul</option><option value="İzmir">İzmir</option><option value="Kars">Kars</option><option value="Kastamonu">Kastamonu</option><option value="Kayseri">Kayseri</option><option value="Kırklareli">Kırklareli</option><option value="Kırşehir">Kırşehir</option><option value="Kocaeli">Kocaeli</option><option value="Konya">Konya</option><option value="Kütahya">Kütahya</option><option value="Malatya">Malatya</option><option value="Manisa">Manisa</option><option value="Kahramanmaraş">Kahramanmaraş</option><option value="Mardin">Mardin</option><option value="Muğla">Muğla</option><option value="Muş">Muş</option><option value="Nevşehir">Nevşehir</option><option value="Niğde">Niğde</option><option value="Ordu">Ordu</option><option value="Rize">Rize</option><option value="Sakarya">Sakarya</option><option value="Samsun">Samsun</option><option value="Siirt">Siirt</option><option value="Sinop">Sinop</option><option value="Sivas">Sivas</option><option value="Tekirdağ">Tekirdağ</option><option value="Tokat">Tokat</option><option value="Trabzon">Trabzon</option><option value="Tunceli">Tunceli</option><option value="Şanlıurfa">Şanlıurfa</option><option value="Uşak">Uşak</option><option value="Van">Van</option><option value="Yozgat">Yozgat</option><option value="Zonguldak">Zonguldak</option><option value="Aksaray">Aksaray</option><option value="Bayburt">Bayburt</option><option value="Karaman">Karaman</option><option value="Kırıkkale">Kırıkkale</option><option value="Batman">Batman</option><option value="Şırnak">Şırnak</option><option value="Bartın">Bartın</option><option value="Ardahan">Ardahan</option><option value="Iğdır">Iğdır</option><option value="Yalova">Yalova</option><option value="Karabük">Karabük</option><option value="Kilis">Kilis</option><option value="Osmaniye">Osmaniye</option><option value="Düzce">Düzce</option>
-                </select>
+    <header>
+        <a href="jaha.html" class="logo">JAHA PERFUME'S</a>
+        <nav>
+            <a href="jaha.html#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+            <a href="jaha.html" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="jaha.html#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+            <a href="luxury.html" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
+            <div class="lang-selector">
+                <span class="lang-opt" data-lang="tr">TR</span>
+                <span class="lang-opt" data-lang="ar">AR</span>
             </div>
+        </nav>
+    </header>
+
+<section class="checkout-page-content">
+    <div class="container">
+        <a href="sepet.html" class="back-link translatable" data-tr="← Sepete Dön" data-ar="← العودة إلى السلة">← Sepete Dön</a>
+        <h1 class="translatable" data-tr="Teslimat Bilgileri" data-ar="معلومات التوصيل">Teslimat Bilgileri</h1>
+        
+        <form id="checkoutForm">
             <div class="form-group">
-                <label for="district">İlçe *</label>
-                <input type="text" id="district" required placeholder="Örn: Kadıköy">
+                <label for="fullname" class="translatable" data-tr="Ad Soyad *" data-ar="الاسم الكامل *">Ad Soyad *</label>
+                <input type="text" id="fullname" required class="translatable-placeholder" data-tr-placeholder="Örn: Ahmet Yılmaz" data-ar-placeholder="مثال: أحمد محمد" placeholder="Örn: Ahmet Yılmaz">
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="address">Tam Adres *</label>
-            <textarea id="address" required placeholder="Mahalle, sokak, bina ve daire no..."></textarea>
-        </div>
+            <div class="form-group">
+                <label for="phone" class="translatable" data-tr="Telefon *" data-ar="رقم الهاتف *">Telefon *</label>
+                <input type="tel" id="phone" required class="translatable-placeholder" data-tr-placeholder="Örn: 0555 555 55 55" data-ar-placeholder="مثال: 0555 555 55 55" placeholder="Örn: 0555 555 55 55">
+            </div>
 
-        <div class="form-group">
-            <label for="postalCode">Posta Kodu *</label>
-            <input type="text" id="postalCode" required placeholder="Örn: 34000">
-        </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="city" class="translatable" data-tr="İl *" data-ar="المحافظة *">İl *</label>
+                    <select id="city" required>
+                        <option value="" class="translatable" data-tr="Seçiniz..." data-ar="اختر...">Seçiniz...</option>
+                        <option value="Adana">Adana</option><option value="Adıyaman">Adıyaman</option><option value="Afyonkarahisar">Afyonkarahisar</option><option value="Ağrı">Ağrı</option><option value="Amasya">Amasya</option><option value="Ankara">Ankara</option><option value="Antalya">Antalya</option><option value="Artvin">Artvin</option><option value="Aydın">Aydın</option><option value="Balıkesir">Balıkesir</option><option value="Bilecik">Bilecik</option><option value="Bingöl">Bingöl</option><option value="Bitlis">Bitlis</option><option value="Bolu">Bolu</option><option value="Burdur">Burdur</option><option value="Bursa">Bursa</option><option value="Çanakkale">Çanakkale</option><option value="Çankırı">Çankırı</option><option value="Çorum">Çorum</option><option value="Denizli">Denizli</option><option value="Diyarbakır">Diyarbakır</option><option value="Edirne">Edirne</option><option value="Elazığ">Elazığ</option><option value="Erzincan">Erzincan</option><option value="Erzurum">Erzurum</option><option value="Eskişehir">Eskişehir</option><option value="Gaziantep">Gaziantep</option><option value="Giresun">Giresun</option><option value="Gümüşhane">Gümüşhane</option><option value="Hakkari">Hakkari</option><option value="Hatay">Hatay</option><option value="Isparta">Isparta</option><option value="Mersin">Mersin</option><option value="İstanbul">İstanbul</option><option value="İzmir">İzmir</option><option value="Kars">Kars</option><option value="Kastamonu">Kastamonu</option><option value="Kayseri">Kayseri</option><option value="Kırklareli">Kırklareli</option><option value="Kırşehir">Kırşehir</option><option value="Kocaeli">Kocaeli</option><option value="Konya">Konya</option><option value="Kütahya">Kütahya</option><option value="Malatya">Malatya</option><option value="Manisa">Manisa</option><option value="Kahramanmaraş">Kahramanmaraş</option><option value="Mardin">Mardin</option><option value="Muğla">Muğla</option><option value="Muş">Muş</option><option value="Nevşehir">Nevşehir</option><option value="Niğde">Niğde</option><option value="Ordu">Ordu</option><option value="Rize">Rize</option><option value="Sakarya">Sakarya</option><option value="Samsun">Samsun</option><option value="Siirt">Siirt</option><option value="Sinop">Sinop</option><option value="Sivas">Sivas</option><option value="Tekirdağ">Tekirdağ</option><option value="Tokat">Tokat</option><option value="Trabzon">Trabzon</option><option value="Tunceli">Tunceli</option><option value="Şanlıurfa">Şanlıurfa</option><option value="Uşak">Uşak</option><option value="Van">Van</option><option value="Yozgat">Yozgat</option><option value="Zonguldak">Zonguldak</option><option value="Aksaray">Aksaray</option><option value="Bayburt">Bayburt</option><option value="Karaman">Karaman</option><option value="Kırıkkale">Kırıkkale</option><option value="Batman">Batman</option><option value="Şırnak">Şırnak</option><option value="Bartın">Bartın</option><option value="Ardahan">Ardahan</option><option value="Iğdır">Iğdır</option><option value="Yalova">Yalova</option><option value="Karabük">Karabük</option><option value="Kilis">Kilis</option><option value="Osmaniye">Osmaniye</option><option value="Düzce">Düzce</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district" class="translatable" data-tr="İlçe *" data-ar="المنطقة / القضاء *">İlçe *</label>
+                    <input type="text" id="district" required class="translatable-placeholder" data-tr-placeholder="Örn: Kadıköy" data-ar-placeholder="مثال: الفاتح" placeholder="Örn: Kadıköy">
+                </div>
+            </div>
 
-        <button type="submit" class="whatsapp-btn">Siparişi Onayla (WhatsApp'a Git)</button>
-    </form>
-</div>
+            <div class="form-group">
+                <label for="address" class="translatable" data-tr="Tam Adres *" data-ar="العنوان الكامل *">Tam Adres *</label>
+                <textarea id="address" required class="translatable-placeholder" data-tr-placeholder="Mahalle, sokak, bina ve daire no..." data-ar-placeholder="الحي، الشارع، البناء ورقم الشقة..." placeholder="Mahalle, sokak, bina ve daire no..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="postalCode" class="translatable" data-tr="Posta Kodu *" data-ar="الرمز البريدي *">Posta Kodu *</label>
+                <input type="text" id="postalCode" required class="translatable-placeholder" data-tr-placeholder="Örn: 34000" data-ar-placeholder="مثال: 34000" placeholder="Örn: 34000">
+            </div>
+
+            <button type="submit" id="submitBtn" class="whatsapp-btn translatable" data-tr="Siparişi Onayla (WhatsApp'a Git)" data-ar="تأكيد الطلب (الذهاب إلى واتساب)">Siparişi Onayla (WhatsApp'a Git)</button>
+        </form>
+    </div>
+</section>
+
+<footer class="translatable" data-tr="© 2026 JAHA PERFUME'S — Luxury Fragrance Experience" data-ar="© 2026 عطور جاها — تجربة العطور الفاخرة">
+    © 2026 JAHA PERFUME'S — Luxury Fragrance Experience
+</footer>
 
 <script>
+    // --- 1. DİL (LANGUAGE) SİSTEMİ VE KALICILIK ---
+    let currentLang = localStorage.getItem('jahaLang') || 'tr';
+    const langOpts = document.querySelectorAll('.lang-opt');
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('jahaLang', currentLang);
+        langOpts.forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-lang') === currentLang);
+        });
+        document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.lang = currentLang;
+        document.querySelectorAll('.translatable').forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+        document.querySelectorAll('.translatable-placeholder').forEach(el => {
+            el.placeholder = currentLang === 'ar' ? el.getAttribute('data-ar-placeholder') : el.getAttribute('data-tr-placeholder');
+        });
+        // HTML title translation support
+        const titleEl = document.querySelector('title.translatable');
+        if (titleEl) {
+            document.title = titleEl.getAttribute(`data-${currentLang}`);
+        }
+    }
+
+    langOpts.forEach(opt => {
+        opt.addEventListener('click', () => {
+            const selectedLang = opt.getAttribute('data-lang');
+            if (selectedLang !== currentLang) setLanguage(selectedLang);
+        });
+    });
+
+    // --- 2. SİPARİŞİ TAMAMLA & WHATSAPP ENTEGRASYONU ---
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
         let cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
         if (cart.length === 0) {
-            alert("Sepetiniz boş. Lütfen önce ürün ekleyin.");
+            const emptyAlert = currentLang === 'ar' 
+                ? "سلتك فارغة. يرجى إضافة منتجات أولاً." 
+                : "Sepetiniz boş. Lütfen önce ürün ekleyin.";
+            alert(emptyAlert);
             window.location.href = "luxury.html";
             return;
         }
@@ -183,7 +482,12 @@
             const itemTotal = product.priceNum * product.quantity;
             total += itemTotal;
             orderItems.push({ name: product.name, price: product.priceNum + ' ₺', quantity: product.quantity });
-            productsText += `${index + 1}. *${product.quantity} adet* ${product.name}\n   _Fiyat: ${product.priceNum} ₺ x ${product.quantity} = ${itemTotal} ₺_\n\n`;
+            
+            if (currentLang === 'ar') {
+                productsText += `${index + 1}. *${product.quantity} قطعة* ${product.name}\n   _السعر: ${product.priceNum} ₺ x ${product.quantity} = ${itemTotal} ₺_\n\n`;
+            } else {
+                productsText += `${index + 1}. *${product.quantity} adet* ${product.name}\n   _Fiyat: ${product.priceNum} ₺ x ${product.quantity} = ${itemTotal} ₺_\n\n`;
+            }
         });
 
         // Admin paneline kaydet
@@ -208,33 +512,63 @@
         localStorage.removeItem('jahaCart');
 
         // WhatsApp Mesajı
-        let message = "🧾 *JAHA PERFUME'S - SİPARİŞ DETAYLARI*\n";
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
-        message += `📅 *Tarih:* ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR')}\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-        
-        message += "👤 *MÜŞTERİ BİLGİLERİ:*\n";
-        message += `▪️ *Ad Soyad:* ${fullname}\n`;
-        message += `▪️ *Telefon:* ${phone}\n`;
-        message += `▪️ *İl / İlçe:* ${city} / ${district}\n`;
-        message += `▪️ *Posta Kodu:* ${postalCode}\n`;
-        message += `▪️ *Adres:* ${address}\n\n`;
-        
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-        message += "📦 *SİPARİŞ EDİLEN ÜRÜNLER:*\n\n";
-        message += productsText;
-        
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
-        message += `💰 *TOPLAM TUTAR:* *${total} ₺*\n`;
-        message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-        message += "Merhaba, yukarıdaki bilgiler doğrultusunda siparişimi onaylamak istiyorum. Yardımcı olabilir misiniz?";
+        let message = "";
+        if (currentLang === 'ar') {
+            message = "🧾 *عطور جاها - تفاصيل الطلب*\n";
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
+            message += `📅 *التاريخ:* ${new Date().toLocaleDateString('ar-SA')} ${new Date().toLocaleTimeString('ar-SA')}\n`;
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            
+            message += "👤 *معلومات العميل:*\n";
+            message += `▪️ *الاسم الكامل:* ${fullname}\n`;
+            message += `▪️ *الهاتف:* ${phone}\n`;
+            message += `▪️ *المحافظة / المنطقة:* ${city} / ${district}\n`;
+            message += `▪️ *الرمز البريدي:* ${postalCode}\n`;
+            message += `▪️ *العنوان:* ${address}\n\n`;
+            
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            message += "📦 *المنتجات المطلوبة:*\n\n";
+            message += productsText;
+            
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
+            message += `💰 *المبلغ الإجمالي:* *${total} ₺*\n`;
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            message += "مرحباً، أود تأكيد طلبي وفقاً للمعلومات أعلاه. هل يمكنك مساعدتي؟";
+        } else {
+            message = "🧾 *JAHA PERFUME'S - SİPARİŞ DETAYLARI*\n";
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
+            message += `📅 *Tarih:* ${new Date().toLocaleDateString('tr-TR')} ${new Date().toLocaleTimeString('tr-TR')}\n`;
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            
+            message += "👤 *MÜŞTERİ BİLGİLERİ:*\n";
+            message += `▪️ *Ad Soyad:* ${fullname}\n`;
+            message += `▪️ *Telefon:* ${phone}\n`;
+            message += `▪️ *İl / İlçe:* ${city} / ${district}\n`;
+            message += `▪️ *Posta Kodu:* ${postalCode}\n`;
+            message += `▪️ *Adres:* ${address}\n\n`;
+            
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            message += "📦 *SİPARİŞ EDİLEN ÜRÜNLER:*\n\n";
+            message += productsText;
+            
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n";
+            message += `💰 *TOPLAM TUTAR:* *${total} ₺*\n`;
+            message += "━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+            message += "Merhaba, yukarıdaki bilgiler doğrultusunda siparişimi onaylamak istiyorum. Yardımcı olabilir misiniz?";
+        }
 
         const encodedMessage = encodeURIComponent(message);
         window.open(`https://wa.me/905515101339?text=${encodedMessage}`, '_blank');
 
-        alert('Siparişiniz alındı! WhatsApp yönlendiriliyorsunuz.');
+        const successAlert = currentLang === 'ar' 
+            ? 'تم استلام طلبك! جاري تحويلك إلى واتساب.' 
+            : 'Siparişiniz alındı! WhatsApp yönlendiriliyorsunuz.';
+        alert(successAlert);
         window.location.href = 'luxury.html';
     });
+
+    // Sayfa ilk yüklendiğinde dil ayarını çalıştır
+    setLanguage(currentLang);
 </script>
 
 </body>

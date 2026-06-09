@@ -1023,7 +1023,7 @@
         </div>
     </div>
 
-    <a href="sepet" class="floating-cart" id="cartBtn">
+    <a href="sepet.html" class="floating-cart" id="cartBtn">
         🛒
         <span class="cart-count">0</span>
     </a>
@@ -1033,12 +1033,12 @@
     </div>
 
     <header>
-        <a href="#" class="logo">JAHA PERFUME'S</a>
+        <a href="jaha.html" class="logo">JAHA PERFUME'S</a>
         <nav>
             <a href="#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
-            <a href="#" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="jaha.html" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
             <a href="#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
-            <a href="luxury" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a>
+            <a href="luxury.html" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a>
             <div class="lang-selector">
                 <span class="lang-opt" data-lang="tr">TR</span>
                 <span class="lang-opt" data-lang="ar">AR</span>
@@ -1051,7 +1051,7 @@
             <h1>JAHA PERFUME'S</h1>
             <p class="translatable" data-tr="Lüks Altın Esans Koleksiyonu" data-ar="مجموعة العطور الذهبية الفاخرة">Lüks
                 Altın Esans Koleksiyonu</p>
-            <button onclick="window.location.href='luxury'" class="translatable" data-tr="Koleksiyonu Keşfet"
+            <button onclick="window.location.href='luxury.html'" class="translatable" data-tr="Koleksiyonu Keşfet"
                 data-ar="اكتشف المجموعة"> Koleksiyonu Keşfet </button>
         </div>
     </section>
@@ -1289,7 +1289,7 @@
                 descAr: "مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.",
                 img: "perfume project/JAHA Bottle 1.jpeg",
                 price: "1200 ₺",
-                page: "index.html#collection"
+                page: "jaha.html#collection"
             },
             {
                 nameTr: "JAHA ROSE",
@@ -1298,7 +1298,7 @@
                 descAr: "الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.",
                 img: "perfume project/JAHA Bottle 1.jpeg",
                 price: "1200 ₺",
-                page: "index.html#collection"
+                page: "jaha.html#collection"
             },
             {
                 nameTr: "JAHA Al HAYBA",
@@ -1307,7 +1307,7 @@
                 descAr: "اللمسة الفاخرة والدائمة لخشب العود الآسيوي الحقيقي.",
                 img: "perfume project/JAHA Bottle 1.jpeg",
                 price: "1200 ₺",
-                page: "index.html#collection"
+                page: "jaha.html#collection"
             },
             // Luxury Page Products
             {
@@ -1575,6 +1575,7 @@
 
         function updateCartCount() {
             // Sepetteki toplam ürün adedini hesapla
+            cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
             let count = 0;
             cart.forEach(item => { count += (item.quantity || 1); });
             cartCounter.innerText = count;
@@ -1588,6 +1589,26 @@
             const productPriceText = card.querySelector('.new-price').innerText;
             const productPriceNum = parseInt(productPriceText.replace(/[^\d]/g, '')) || 1000;
             const productImg = card.querySelector('.bottle-img').getAttribute('src');
+
+            // --- STOK KONTROL VE DÜŞÜŞÜ ---
+            const STORAGE_PRODUCTS = 'jahaAdminProducts';
+            let allProducts = JSON.parse(localStorage.getItem(STORAGE_PRODUCTS)) || [];
+            if (allProducts.length > 0) {
+                const prodIdx = allProducts.findIndex(p => p.nameTr.toLowerCase() === productName.toLowerCase() || (p.nameAr && p.nameAr.toLowerCase() === productName.toLowerCase()));
+                if (prodIdx > -1) {
+                    const currentStock = allProducts[prodIdx].stock !== undefined ? allProducts[prodIdx].stock : 10;
+                    if (currentStock <= 0) {
+                        const alertMsg = currentLang === 'ar' ? 'هذا المنتج غير متوفر في المخزون' : 'Bu ürün stokta kalmadı!';
+                        alert(alertMsg);
+                        return;
+                    }
+                    allProducts[prodIdx].stock = currentStock - 1;
+                    localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(allProducts));
+                }
+            }
+
+            // Başka sayfalarda sepete eklenen ürünleri ezmemek için localstorage'dan güncel sepeti oku
+            cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
 
             // Eğer ürün zaten sepette varsa, sadece miktarını artır
             const existingItemIndex = cart.findIndex(item => item.name === productName);

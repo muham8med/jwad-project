@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>JAHA PERFUME'S | Sepetim</title>
+<title class="translatable" data-tr="JAHA PERFUME'S | Sepetim" data-ar="JAHA PERFUME'S | سلتي">JAHA PERFUME'S | Sepetim</title>
 
 <!-- Favicon -->
 <link rel="apple-touch-icon" sizes="180x180" href="media%20ph/apple-touch-icon.png">
@@ -11,35 +11,197 @@
 <link rel="icon" type="image/png" sizes="16x16" href="media%20ph/favicon-16x16.png">
 <link rel="manifest" href="media%20ph/site.webmanifest">
 <link rel="shortcut icon" href="media%20ph/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
+    /* ===============================
+       ROOT & RESET
+    =============================== */
     :root {
         --gold: #d4af37;
+        --dark-gold: #8f6b10;
         --black: #050505;
         --card: #111111;
         --text: #f5f5f5;
+        --muted: #999;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
         font-family: 'Poppins', sans-serif;
         background: var(--black);
         color: var(--text);
-        padding: 50px 20px;
+        overflow-x: hidden;
+        transition: all 0.3s ease;
+    }
+
+    /* ===============================
+       ARAPÇA (SAĞDAN SOLA - RTL) UYUMU
+    =============================== */
+    body[dir="rtl"] { text-align: right; }
+    body[dir="rtl"] nav { flex-direction: row-reverse; }
+    body[dir="rtl"] .back-link { display: inline-flex; flex-direction: row-reverse; }
+    body[dir="rtl"] .cart-total { text-align: left; }
+    body[dir="rtl"] .cart-total strong { margin-left: 0; margin-right: 10px; }
+    body[dir="rtl"] .qty-controls { margin-right: 0; margin-left: 20px; }
+    body[dir="rtl"] .item-total-price { text-align: left; }
+
+    /* ===============================
+       BACKGROUND ANIMATION & SMOKE
+    =============================== */
+    body::before {
+        content: ""; position: fixed; inset: 0;
+        background: radial-gradient(circle at top left, rgba(212,175,55,0.15), transparent 35%),
+                    radial-gradient(circle at bottom right, rgba(212,175,55,0.10), transparent 35%);
+        animation: bgMove 10s infinite alternate ease-in-out; z-index: -2;
+    }
+    @keyframes bgMove { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+    .smoke { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: -1; }
+    .smoke span { position: absolute; bottom: -200px; border-radius: 50%; background: rgba(212,175,55,0.08); filter: blur(40px); animation: smokeRise linear infinite; }
+    .smoke span:nth-child(1) { width: 300px; height: 300px; left: 10%; animation-duration: 15s; }
+    .smoke span:nth-child(2) { width: 400px; height: 400px; left: 60%; animation-duration: 18s; animation-delay: 3s; }
+    .smoke span:nth-child(3) { width: 250px; height: 250px; left: 35%; animation-duration: 12s; animation-delay: 6s; }
+    @keyframes smokeRise { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 0.5; } 100% { transform: translateY(-120vh) scale(1.4); opacity: 0; } }
+
+    /* ===============================
+       ANNOUNCEMENT BAR (MARQUEE)
+    =============================== */
+    .announcement-bar {
+        width: 100%;
+        background: linear-gradient(90deg, #8f6b10, #d4af37, #8f6b10);
+        color: #000;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 8px 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1005;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        pointer-events: none;
+    }
+    .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee 25s linear infinite;
+        animation-play-state: running !important;
+    }
+    .marquee-text {
+        padding: 0 40px;
+        white-space: nowrap;
+    }
+    @keyframes marquee {
+        0%   { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-25%, 0, 0); }
+    }
+
+    /* ===============================
+       HEADER & NAVIGATION
+    =============================== */
+    header { width: 100%; position: fixed; top: 32px; left: 0; padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(212,175,55,0.15); z-index: 1000; }
+    .logo { font-family: 'Cinzel', serif; color: var(--gold); font-size: 28px; text-decoration: none; letter-spacing: 3px; }
+    nav { display: flex; gap: 30px; align-items: center; }
+    nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 18px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    nav a::before {
+        content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        transition: all 0.5s ease;
+    }
+    nav a:hover {
+        color: var(--gold);
+        background: rgba(212, 175, 55, 0.08);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    }
+    nav a:hover::before { left: 100%; }
+
+    .lang-selector {
+        display: inline-flex;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 4px;
+        border-radius: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+    .lang-selector:hover {
+        border-color: rgba(212, 175, 55, 0.2);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        transform: translateY(-2px);
+    }
+    .lang-opt {
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        user-select: none;
+    }
+    .lang-opt.active {
+        background: var(--gold);
+        color: var(--black);
+        box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    }
+    .lang-opt:not(.active):hover {
+        color: var(--gold);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ===============================
+       CART CONTAINER
+    =============================== */
+    .cart-page-content {
+        padding: 182px 50px 100px;
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
     .container {
+        width: 100%;
         max-width: 800px;
-        margin: 0 auto;
         background: var(--card);
         padding: 40px;
         border: 1px solid rgba(212,175,55,0.2);
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
     h1 {
         font-family: 'Cinzel', serif;
         color: var(--gold);
         text-align: center;
         margin-bottom: 30px;
+        font-size: 36px;
+        letter-spacing: 2px;
     }
     .cart-list {
         list-style: none;
@@ -49,7 +211,8 @@
         text-align: center;
         color: #999;
         font-style: italic;
-        padding: 20px 0;
+        padding: 40px 0;
+        font-size: 16px;
     }
     .checkout-btn {
         display: block;
@@ -65,35 +228,48 @@
         border-radius: 30px;
         cursor: pointer;
         transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.25);
     }
     .checkout-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(212,175,55,0.3);
+        box-shadow: 0 10px 25px rgba(212,175,55,0.4);
     }
     .clear-btn {
         display: block;
         width: 100%;
         margin-top: 15px;
-        padding: 10px;
+        padding: 12px;
         background: transparent;
         color: #ff4c4c;
-        border: 1px solid #ff4c4c;
+        border: 1px solid rgba(255, 76, 76, 0.4);
         border-radius: 30px;
         text-align: center;
         cursor: pointer;
         transition: 0.3s;
+        font-weight: 600;
     }
     .clear-btn:hover {
         background: #ff4c4c;
         color: white;
+        border-color: #ff4c4c;
+        box-shadow: 0 5px 15px rgba(255, 76, 76, 0.3);
     }
     .back-link {
         display: inline-block;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         color: var(--gold);
         text-decoration: none;
+        font-weight: 500;
+        transition: 0.3s;
     }
-    .back-link:hover { text-decoration: underline; }
+    .back-link:hover {
+        color: #f1cb55;
+        text-decoration: none;
+        transform: translateX(-5px);
+    }
+    body[dir="rtl"] .back-link:hover {
+        transform: translateX(5px);
+    }
     .cart-total {
         margin-top: 20px;
         margin-bottom: 30px;
@@ -105,28 +281,37 @@
         letter-spacing: 1px;
     }
     .cart-total strong {
-        font-size: 24px;
+        font-size: 26px;
         color: #fff;
         margin-left: 10px;
     }
 
-    /* Yeni Sepet Öğesi Stilleri */
+    /* Sepet Öğesi Stilleri */
     .cart-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 15px 0;
+        padding: 20px 0;
         border-bottom: 1px solid rgba(212,175,55,0.1);
         font-size: 16px;
+        transition: 0.3s ease;
+    }
+    .cart-item:hover {
+        background: rgba(212, 175, 55, 0.02);
     }
     .cart-item-img {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         object-fit: contain;
-        border-radius: 8px;
+        border-radius: 10px;
         background: #1a1a1a;
-        margin-right: 15px;
-        border: 1px solid rgba(212,175,55,0.2);
+        margin-right: 20px;
+        border: 1px solid rgba(212,175,55,0.15);
+        padding: 4px;
+    }
+    body[dir="rtl"] .cart-item-img {
+        margin-right: 0;
+        margin-left: 20px;
     }
     .cart-item-info {
         flex: 1;
@@ -135,78 +320,224 @@
     }
     .cart-item-name {
         font-weight: 600;
-        color: var(--gold);
+        color: #fff;
         margin-bottom: 5px;
+        font-size: 18px;
+        font-family: 'Cinzel', serif;
     }
     .cart-item-price {
         font-size: 14px;
-        color: #bbb;
+        color: var(--gold);
+        font-weight: 500;
     }
     .qty-controls {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         margin-right: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        padding: 4px 10px;
+        border-radius: 30px;
     }
     .qty-btn {
-        width: 30px;
-        height: 30px;
-        border-radius: 5px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
         background: var(--gold);
         color: black;
         border: none;
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 16px;
+        font-weight: 700;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: 0.2s;
     }
     .qty-btn:hover {
         background: #f1cb55;
+        transform: scale(1.1);
     }
     .qty-number {
-        font-weight: bold;
+        font-weight: 600;
         width: 20px;
         text-align: center;
+        color: #fff;
+        font-size: 15px;
     }
     .item-total-price {
-        font-weight: 600;
-        min-width: 80px;
+        font-weight: 700;
+        min-width: 100px;
         text-align: right;
+        color: #fff;
+        font-size: 18px;
     }
 
-    @media (max-width: 600px) {
+    /* ===============================
+       FOOTER & RESPONSIVE
+    =============================== */
+    footer { padding: 40px 20px; text-align: center; border-top: 1px solid rgba(212,175,55,0.1); color: #777; font-size: 14px; }
+
+    @media (max-width: 768px) {
+        header {
+            padding: 15px 10px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 12px 8px;
+            align-items: center;
+            justify-items: center;
+        }
+        nav { display: contents; }
+        .logo {
+            grid-column: 2;
+            order: 2;
+            font-size: 18px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .nav-link-home {
+            order: 1;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-cont {
+            order: 3;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-coll {
+            order: 4;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .nav-link-lux {
+            order: 5;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+        }
+        .lang-selector {
+            order: 6;
+            padding: 2px !important;
+        }
+        .lang-opt {
+            font-size: 11px !important;
+            padding: 4px 8px !important;
+        }
+        .cart-page-content {
+            padding: 245px 20px 60px;
+        }
+        .container {
+            padding: 25px 20px;
+        }
+        h1 {
+            font-size: 28px;
+        }
         .cart-item {
             flex-direction: column;
             align-items: flex-start;
+            gap: 15px;
         }
         .qty-controls {
-            margin: 15px 0;
+            margin-right: 0;
+            margin-left: 0;
+        }
+        body[dir="rtl"] .qty-controls {
+            margin-left: 0;
         }
         .item-total-price {
-            align-self: flex-end;
+            text-align: right;
+            width: 100%;
+            border-top: 1px dashed rgba(255, 255, 255, 0.05);
+            padding-top: 8px;
+        }
+        body[dir="rtl"] .item-total-price {
+            text-align: left;
         }
     }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <a href="luxury.html" class="back-link">← Alışverişe Dön</a>
-    <h1>Sepetiniz</h1>
-    
-    <ul id="cartItems" class="cart-list">
-        <!-- Sepet öğeleri buraya yüklenecek -->
-    </ul>
+    <div class="announcement-bar">
+        <div class="marquee-track">
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+            <span class="marquee-text translatable" data-tr="💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥" data-ar="💥 لا تفوت فرصة الخصم! أسعار خاصة على أرقى العطور 💥">💥 İNDİRİM FIRSATINI KAÇIRMA! EN LÜKS PARFÜMLERDE ÖZEL FİYATLAR 💥</span>
+        </div>
+    </div>
 
-    <div id="cartTotal" class="cart-total">Toplam Tutar: <strong>0 ₺</strong></div>
+    <div class="smoke">
+        <span></span><span></span><span></span>
+    </div>
 
-    <button id="checkoutBtn" class="checkout-btn">Siparişi Onayla</button>
-    <button id="clearCartBtn" class="clear-btn">Sepeti Temizle</button>
-</div>
+    <header>
+        <a href="jaha.html" class="logo">JAHA PERFUME'S</a>
+        <nav>
+            <a href="jaha.html#collection" class="translatable nav-link-coll" data-tr="Koleksiyon" data-ar="المجموعة">Koleksiyon</a>
+            <a href="jaha.html" class="translatable nav-link-home" data-tr="Ana Sayfa" data-ar="الرئيسية">Ana Sayfa</a>
+            <a href="jaha.html#contact" class="translatable nav-link-cont" data-tr="İletişim" data-ar="اتصال">İletişim</a>
+            <a href="luxury.html" class="translatable nav-link-lux" data-tr="Lüks" data-ar="فاخر">Lüks</a> 
+            <div class="lang-selector">
+                <span class="lang-opt" data-lang="tr">TR</span>
+                <span class="lang-opt" data-lang="ar">AR</span>
+            </div>
+        </nav>
+    </header>
+
+<section class="cart-page-content">
+    <div class="container">
+        <a href="luxury.html" class="back-link translatable" data-tr="← Alışverişe Dön" data-ar="← العودة إلى التسوق">← Alışverişe Dön</a>
+        <h1 class="translatable" data-tr="Sepetiniz" data-ar="سلتك">Sepetiniz</h1>
+        
+        <ul id="cartItems" class="cart-list">
+            <!-- Sepet öğeleri buraya yüklenecek -->
+        </ul>
+
+        <div id="cartTotal" class="cart-total translatable-total" data-tr="Toplam Tutar: " data-ar="المبلغ الإجمالي: ">Toplam Tutar: <strong>0 ₺</strong></div>
+
+        <button id="checkoutBtn" class="checkout-btn translatable" data-tr="Siparişi Onayla" data-ar="تأكيد الطلب">Siparişi Onayla</button>
+        <button id="clearCartBtn" class="clear-btn translatable" data-tr="Sepeti Temizle" data-ar="تفرِيغ السلة">Sepeti Temizle</button>
+    </div>
+</section>
+
+<footer class="translatable" data-tr="© 2026 JAHA PERFUME'S — Luxury Fragrance Experience" data-ar="© 2026 عطور جاها — تجربة العطور الفاخرة">
+    © 2026 JAHA PERFUME'S — Luxury Fragrance Experience
+</footer>
 
 <script>
+    // --- 1. DİL (LANGUAGE) SİSTEMİ VE KALICILIK ---
+    let currentLang = localStorage.getItem('jahaLang') || 'tr';
+    const langOpts = document.querySelectorAll('.lang-opt');
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('jahaLang', currentLang);
+        langOpts.forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-lang') === currentLang);
+        });
+        document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.lang = currentLang;
+        document.querySelectorAll('.translatable').forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+        // HTML title translation support
+        const titleEl = document.querySelector('title.translatable');
+        if (titleEl) {
+            document.title = titleEl.getAttribute(`data-${currentLang}`);
+        }
+        renderCart(); // Re-render cart elements to apply currency text and empty cart messages in the correct language!
+    }
+
+    langOpts.forEach(opt => {
+        opt.addEventListener('click', () => {
+            const selectedLang = opt.getAttribute('data-lang');
+            if (selectedLang !== currentLang) setLanguage(selectedLang);
+        });
+    });
+
+    // --- 2. SEPET YÖNETİMİ ---
     let rawCart = JSON.parse(localStorage.getItem('jahaCart')) || [];
     
     // Eski/Yeni cart veri formatını normalize et (quantity ve image eksiklerini tamamla)
@@ -235,10 +566,12 @@
 
     function renderCart() {
         cartItemsContainer.innerHTML = '';
+        const totalTextLabel = currentLang === 'ar' ? 'المبلغ الإجمالي:' : 'Toplam Tutar:';
         
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<li class="empty-cart-msg">Sepetiniz şu an boş.</li>';
-            cartTotalContainer.innerHTML = 'Toplam Tutar: <strong>0 ₺</strong>';
+            const emptyMsg = currentLang === 'ar' ? 'سلتك فارغة حالياً.' : 'Sepetiniz şu an boş.';
+            cartItemsContainer.innerHTML = `<li class="empty-cart-msg">${emptyMsg}</li>`;
+            cartTotalContainer.innerHTML = `${totalTextLabel} <strong>0 ₺</strong>`;
             return;
         }
 
@@ -256,7 +589,7 @@
                     <img src="${product.image}" class="cart-item-img" alt="${product.name}">
                     <div class="cart-item-info">
                         <span class="cart-item-name">${product.name}</span>
-                        <span class="cart-item-price">${product.priceNum} ₺</span>
+                        <span class="cart-item-price">${product.priceNum.toLocaleString()} ₺</span>
                     </div>
                 </div>
                 
@@ -268,18 +601,20 @@
                     </div>
 
                     <div class="item-total-price">
-                        ${itemTotal} ₺
+                        ${itemTotal.toLocaleString()} ₺
                     </div>
                 </div>
             `;
             cartItemsContainer.appendChild(li);
         });
 
-        cartTotalContainer.innerHTML = `Toplam Tutar: <strong>${total} ₺</strong>`;
+        cartTotalContainer.innerHTML = `${totalTextLabel} <strong>${total.toLocaleString()} ₺</strong>`;
     }
 
     // Miktar Artırma / Azaltma Fonksiyonu
     window.updateQty = function(index, change) {
+        // Sepette değişiklik yaparken localStorage'dan son halini kontrol et ve güncelle
+        cart = JSON.parse(localStorage.getItem('jahaCart')) || [];
         if (cart[index]) {
             cart[index].quantity += change;
             if (cart[index].quantity <= 0) {
@@ -289,8 +624,6 @@
             renderCart();
         }
     };
-
-    renderCart();
 
     // Sepeti Temizle Butonu
     document.getElementById('clearCartBtn').addEventListener('click', () => {
@@ -302,11 +635,17 @@
     // Ödeme / Fatura Adımına Geçiş
     document.getElementById('checkoutBtn').addEventListener('click', () => {
         if (cart.length === 0) {
-            alert("Sipariş vermek için önce sepetinize ürün eklemelisiniz.");
+            const alertMsg = currentLang === 'ar' 
+                ? 'يجب عليك إضافة منتجات إلى سلتك أولاً لتقديم طلب.' 
+                : 'Sipariş vermek için önce sepetinize ürün eklemelisiniz.';
+            alert(alertMsg);
             return;
         }
         window.location.href = 'checkout.html';
     });
+
+    // Sayfa ilk yüklendiğinde dil ayarını çalıştır
+    setLanguage(currentLang);
 </script>
 
 </body>
