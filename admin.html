@@ -394,7 +394,7 @@ tr:hover td { background: rgba(212,175,55,0.03); }
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Fiyat (₺)</label><input type="number" id="prodPrice" placeholder="1200" /></div>
-                    <div class="form-group"><label>Görsel Yolu</label><input type="text" id="prodImage" placeholder="perfume project/..." value="perfume project/JAHA Bottle 1.jpeg" /></div>
+                    <div class="form-group"><label>Görsel Yolu</label><input type="text" id="prodImage" placeholder="perfume project/..." value="perfume project/IMG_7358.PNG" /></div>
                     <div class="form-group" style="min-width:80px"><label>Stok (Adet)</label><input type="number" id="prodStock" placeholder="10" value="10" /></div>
                     <div class="form-group"><label>Sayfa</label>
                         <select id="prodPage">
@@ -484,11 +484,11 @@ function saveOrdersToStore(orders) {
 
 function defaultProducts() {
     return [
-        { id: 'p1', nameTr: 'JAHA GENTLEMAN', nameAr: 'JAHA GENTLEMAN', descTr: 'Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.', descAr: 'مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.', price: 1400, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', oldPrice: 2000, discount: -30, category: '' },
-        { id: 'p2', nameTr: 'JAHA ROSE', nameAr: 'JAHA ROSE نسائي', descTr: 'İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.', descAr: 'الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.', price: 1600, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', oldPrice: 2285, discount: -30, category: '' },
-        { id: 'p3', nameTr: 'JAHA TITAN', nameAr: 'JAHA TITAN', descTr: 'Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.', descAr: 'خيار الرجل العصري بتأثيره القوي والطويل الأمد.', price: 1600, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'index', oldPrice: 2285, discount: -30, category: '' },
-        { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'luxury', oldPrice: 1715, discount: -30, category: 'Özel Seri' },
-        { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/JAHA Bottle 1.jpeg', page: 'luxury', oldPrice: 1715, discount: -30, category: 'Özel Seri' }
+        { id: 'p1', nameTr: 'JAHA GENTLEMAN', nameAr: 'JAHA GENTLEMAN', descTr: 'Odunsu notalar ve karabiberin maskülen ve keskin birleşimi.', descAr: 'مزيج ذكوري وحاد من الملاحظات الخشبية والفلفل الأسود.', price: 1400, stock: 10, image: 'perfume project/IMG_7358.PNG', page: 'index', oldPrice: 2000, discount: -30, category: '' },
+        { id: 'p2', nameTr: 'JAHA ROSE', nameAr: 'JAHA ROSE نسائي', descTr: 'İpeksi gül yaprakları ve beyaz miskin büyüleyici zarafeti.', descAr: 'الأناقة الساحرة لبتلات الورد الحريرية والمسك الأبيض.', price: 1600, stock: 10, image: 'perfume project/IMG_7358.PNG', page: 'index', oldPrice: 2285, discount: -30, category: '' },
+        { id: 'p3', nameTr: 'JAHA TITAN', nameAr: 'JAHA TITAN', descTr: 'Güçlü ve kalıcı etkisiyle modern erkeğin tercihi.', descAr: 'خيار الرجل العصري بتأثيره القوي والطويل الأمد.', price: 1600, stock: 10, image: 'perfume project/IMG_7358.PNG', page: 'index', oldPrice: 2285, discount: -30, category: '' },
+        { id: 'p4', nameTr: 'JAHA Al HAYBA', nameAr: 'JAHA Al HAYBA', descTr: 'Doğu\'nun gizemli esanslarıyla büyüleyici bir deneyim.', descAr: 'تجربة ساحرة مع خلاصات الشرق الغامضة.', price: 1200, stock: 10, image: 'perfume project/IMG_7358.PNG', page: 'luxury', oldPrice: 1715, discount: -30, category: 'Özel Seri' },
+        { id: 'p5', nameTr: 'JAHA STORM', nameAr: 'JAHA STORM', descTr: 'Taze ve dinamik notalarla enerjinizi yükseltin.', descAr: 'ارفع طاقتك بنفحات منعشة وديناميكية.', price: 1200, stock: 10, image: 'perfume project/IMG_7358.PNG', page: 'luxury', oldPrice: 1715, discount: -30, category: 'Özel Seri' }
     ];
 }
 
@@ -591,7 +591,7 @@ function saveProduct() {
     const descAr = document.getElementById('prodDescAr').value.trim();
     const price = parseInt(document.getElementById('prodPrice').value);
     const stock = parseInt(document.getElementById('prodStock').value) || 0;
-    const image = document.getElementById('prodImage').value.trim() || 'perfume project/JAHA Bottle 1.jpeg';
+    const image = document.getElementById('prodImage').value.trim() || 'perfume project/IMG_7358.PNG';
     const page = document.getElementById('prodPage').value;
     const category = document.getElementById('prodCategory').value;
 
@@ -640,7 +640,7 @@ function cancelEdit() {
     document.getElementById('prodDescAr').value = '';
     document.getElementById('prodPrice').value = '';
     document.getElementById('prodStock').value = '10';
-    document.getElementById('prodImage').value = 'perfume project/JAHA Bottle 1.jpeg';
+    document.getElementById('prodImage').value = 'perfume project/IMG_7358.PNG';
     document.getElementById('prodPage').value = 'index';
     document.getElementById('prodCategory').value = '';
     document.getElementById('formTitle').textContent = 'Yeni Ürün Ekle';
